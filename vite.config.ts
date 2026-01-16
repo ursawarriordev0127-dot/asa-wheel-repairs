@@ -15,6 +15,8 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
     dedupe: ["react", "react-dom"],
+    // Ensure proper module resolution
+    preserveSymlinks: false,
   },
   build: {
     outDir: "dist",
@@ -30,11 +32,16 @@ export default defineConfig(({ mode }) => ({
       output: {
         manualChunks: (id) => {
           if (id.includes("node_modules")) {
-            // React core - must be first
-            if (id.includes("/react/") || id.includes("/react-dom/") || id.includes("/scheduler/")) {
+            // Ensure React and React-DOM are in the same chunk to avoid module resolution issues
+            if (
+              id.includes("/react/") ||
+              id.includes("/react-dom/") ||
+              id.includes("/scheduler/")
+            ) {
               return "vendor-react";
             }
-            // All React-dependent packages should be separate to avoid circular deps
+            // All React-dependent packages must be in a chunk that can access React
+            // This prevents "Cannot read properties of undefined" errors
             if (
               id.includes("react-router") ||
               id.includes("@radix-ui") ||
@@ -43,16 +50,22 @@ export default defineConfig(({ mode }) => ({
               id.includes("react-day-picker") ||
               id.includes("react-resizable") ||
               id.includes("@tanstack/react-query") ||
-              id.includes("zustand") ||
-              id.includes("sonner")
+              id.includes("sonner") ||
+              id.includes("embla-carousel-react") ||
+              id.includes("recharts") ||
+              id.includes("lucide-react") ||
+              id.includes("next-themes")
             ) {
               return "vendor-react-libs";
             }
-            // Everything else (non-React dependencies)
+            // Only non-React dependencies go in the generic vendor chunk
             return "vendor";
           }
         },
       },
     },
+  },
+  optimizeDeps: {
+    include: ["react", "react-dom"],
   },
 }));
