@@ -1,0 +1,177 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ASA Wheel Repairs - Industrial Premium Design System
+   All colors in HSL format for proper theming
+*/
+
+@layer base {
+  :root {
+    /* Core backgrounds */
+    --background: 0 0% 100%;
+    --foreground: 220 20% 10%;
+
+    /* Cards and surfaces */
+    --card: 0 0% 100%;
+    --card-foreground: 220 20% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 20% 10%;
+
+    /* Primary - ASA Red */
+    --primary: 350 75% 45%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary - Charcoal */
+    --secondary: 220 15% 15%;
+    --secondary-foreground: 0 0% 100%;
+
+    /* Muted - Light gray */
+    --muted: 220 15% 95%;
+    --muted-foreground: 220 10% 45%;
+
+    /* Accent - Metallic silver */
+    --accent: 220 10% 88%;
+    --accent-foreground: 220 20% 10%;
+
+    /* Destructive */
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Borders and inputs */
+    --border: 220 15% 88%;
+    --input: 220 15% 88%;
+    --ring: 350 75% 45%;
+
+    --radius: 0.5rem;
+
+    /* Custom ASA colors */
+    --asa-red: 350 75% 45%;
+    --asa-red-dark: 350 75% 35%;
+    --asa-charcoal: 220 15% 12%;
+    --asa-charcoal-light: 220 15% 18%;
+    --asa-silver: 220 10% 75%;
+    --asa-silver-light: 220 10% 92%;
+    --asa-gold: 45 85% 55%;
+
+    /* Sidebar (keeping for compatibility) */
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 350 75% 45%;
+  }
+
+  .dark {
+    --background: 220 15% 8%;
+    --foreground: 0 0% 95%;
+
+    --card: 220 15% 12%;
+    --card-foreground: 0 0% 95%;
+
+    --popover: 220 15% 12%;
+    --popover-foreground: 0 0% 95%;
+
+    --primary: 350 75% 50%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 10% 25%;
+    --secondary-foreground: 0 0% 95%;
+
+    --muted: 220 15% 18%;
+    --muted-foreground: 220 10% 60%;
+
+    --accent: 220 10% 25%;
+    --accent-foreground: 0 0% 95%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 95%;
+
+    --border: 220 15% 20%;
+    --input: 220 15% 20%;
+    --ring: 350 75% 50%;
+
+    --sidebar-background: 220 15% 10%;
+    --sidebar-foreground: 0 0% 95%;
+    --sidebar-primary: 350 75% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 15% 18%;
+    --sidebar-accent-foreground: 0 0% 95%;
+    --sidebar-border: 220 15% 18%;
+    --sidebar-ring: 350 75% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold tracking-tight;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70;
+  }
+
+  .bg-metallic {
+    background: linear-gradient(
+      135deg,
+      hsl(var(--asa-silver-light)) 0%,
+      hsl(var(--asa-silver)) 50%,
+      hsl(var(--asa-silver-light)) 100%
+    );
+  }
+
+  .bg-dark-gradient {
+    background: linear-gradient(
+      180deg,
+      hsl(var(--asa-charcoal)) 0%,
+      hsl(var(--asa-charcoal-light)) 100%
+    );
+  }
+
+  .shadow-premium {
+    box-shadow: 
+      0 4px 6px -1px hsl(var(--asa-charcoal) / 0.1),
+      0 2px 4px -2px hsl(var(--asa-charcoal) / 0.1),
+      0 0 0 1px hsl(var(--border) / 0.5);
+  }
+
+  .shadow-premium-lg {
+    box-shadow: 
+      0 20px 25px -5px hsl(var(--asa-charcoal) / 0.15),
+      0 8px 10px -6px hsl(var(--asa-charcoal) / 0.1),
+      0 0 0 1px hsl(var(--border) / 0.5);
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--asa-silver));
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground));
+}
