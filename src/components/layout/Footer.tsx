@@ -164,20 +164,6 @@ export function Footer() {
         </div>
       </div>
 
-      {/* Trusted Partners */}
-      <div className="border-t border-border/20">
-        <div className="container mx-auto px-4 py-8">
-          <p className="text-center text-muted-foreground text-sm mb-6">
-            Trusted by Sydney's leading dealerships
-          </p>
-          <div className="flex flex-wrap justify-center items-center gap-8 text-muted-foreground/60">
-            <span className="font-display text-lg">Mercedes-Benz</span>
-            <span className="font-display text-lg">Windsor Auto Group</span>
-            <span className="font-display text-lg">Nepean Motor Group</span>
-          </div>
-        </div>
-      </div>
-
       {/* Copyright */}
       <div className="border-t border-border/20 bg-secondary/80">
         <div className="container mx-auto px-4 py-6">

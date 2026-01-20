@@ -80,22 +80,14 @@ export function Header() {
           <div className="hidden md:flex items-center gap-3">
             <a
               href="tel:0450693539"
-              className="flex items-center gap-2 text-white hover:text-primary transition-colors"
-            >
-              <Phone className="w-4 h-4" />
-              <span className="font-medium">0450 693 539</span>
-            </a>
-            <a
-              href="https://wa.me/61450693539"
-              target="_blank"
               rel="noopener noreferrer"
             >
               <Button
                 size="sm"
                 className="bg-primary hover:bg-primary/90 text-primary-foreground gap-2"
               >
-                <MessageCircle className="w-4 h-4" />
-                WhatsApp
+                <Phone className="w-4 h-4" />
+                0450 693 539
               </Button>
             </a>
             <Link to="/contact">

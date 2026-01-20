@@ -4,7 +4,6 @@ import { useRef } from "react";
 
 const stats = [
   { value: "12+", label: "Years Experience", suffix: "" },
-  { value: "5000", label: "Wheels Repaired", suffix: "+" },
   { value: "100", label: "Satisfied Clients", suffix: "%" },
   { value: "24", label: "Hour Turnaround", suffix: "hr" },
 ];
@@ -16,7 +15,7 @@ export function StatsSection() {
   return (
     <section ref={ref} className="py-16 bg-primary">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {stats.map((stat, index) => (
             <motion.div
               key={stat.label}
