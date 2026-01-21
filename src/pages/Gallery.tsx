@@ -32,8 +32,8 @@ const galleryImages = [
   },
   {
     id: 5,
-    category: "Tyre Service",
-    title: "Tyre Service & Fitting",
+    category: "Cosmetic",
+    title: "Cosmetic & Fitting",
     url: "https://static.wixstatic.com/media/4b2a574b8a8e4c9a85009f628f3a2cf6.jpg/v1/fill/w_600,h_600,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Stack%20of%20Tires.jpg",
   },
   {
@@ -56,7 +56,7 @@ const galleryImages = [
   },
 ];
 
-const categories = ["All", "Diamond Cut", "Cosmetic", "Custom Colour", "Tyre Service"];
+const categories = ["All", "Diamond Cut", "Cosmetic", "Custom Colour"];
 
 export default function Gallery() {
   const [selectedCategory, setSelectedCategory] = useState("All");
