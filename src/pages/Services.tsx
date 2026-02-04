@@ -162,12 +162,12 @@ export default function Services() {
                         <img
                           src={
                             service.id === "diamond-cut"
-                              ? "https://static.wixstatic.com/media/81236c_2eefd8d8740b4a8db1557e9fd9435679~mv2.jpg/v1/fill/w_800,h_800,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/lenco-mag-machine.jpg"
+                              ? "/images/services/diamond-cut.jpg"
                               : service.id === "cosmetic"
-                              ? "https://static.wixstatic.com/media/575d66_8e4314d251114af3a8f821b0975e4c9c~mv2.jpeg/v1/fill/w_800,h_800,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/mclaren_forged3.jpeg"
+                              ? "/images/services/cosmetic-repair.jpg"
                               : service.id === "custom-colour"
-                              ? "https://static.wixstatic.com/media/81236c_33e0cdc1fc474cbdada63c494584fa6a~mv2.png/v1/fill/w_800,h_800,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Coloured%20Alloy%201.png"
-                              : "https://static.wixstatic.com/media/4b2a574b8a8e4c9a85009f628f3a2cf6.jpg/v1/fill/w_800,h_800,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Stack%20of%20Tires.jpg"
+                              ? "/images/services/custom-colour.jpg"
+                              : "/images/services/tyre-service.jpg"
                           }
                           alt={service.title}
                           className="w-full h-full object-cover"

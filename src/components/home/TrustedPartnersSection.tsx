@@ -5,13 +5,10 @@ const partners = [
   { name: "Mercedes-Benz", logo: "https://upload.wikimedia.org/wikipedia/commons/9/90/Mercedes-Logo.svg" },
   { name: "BMW", logo: "https://upload.wikimedia.org/wikipedia/commons/4/44/BMW.svg" },
   { name: "Audi", logo: "https://upload.wikimedia.org/wikipedia/commons/9/92/Audi-Logo_2016.svg" },
-  { name: "Porsche", logo: "https://upload.wikimedia.org/wikipedia/commons/5/5c/Porsche-Logo.svg" },
-  { name: "Lexus", logo: "https://upload.wikimedia.org/wikipedia/commons/d/d1/Lexus_division_emblem.svg" },
-  { name: "Land Rover", logo: "https://upload.wikimedia.org/wikipedia/en/9/9c/Land_Rover_logo2.png" },
 ];
 
 // Duplicate for seamless loop
-const allPartners = [...partners, ...partners];
+const allPartners = [...partners, ...partners, ...partners, ...partners];
 
 export function TrustedPartnersSection() {
   const ref = useRef(null);
@@ -51,7 +48,7 @@ export function TrustedPartnersSection() {
           <motion.div
             className="flex gap-16 items-center"
             animate={{
-              x: ["0%", "-50%"],
+              x: ["50%", "-50%"],
             }}
             transition={{
               x: {

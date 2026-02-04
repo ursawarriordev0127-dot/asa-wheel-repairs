@@ -120,18 +120,28 @@ export function HeroSection() {
               {/* Middle Ring */}
               <div className="absolute inset-8 border-2 border-primary/30 rounded-full" />
               
-              {/* Inner Content */}
-              <div className="absolute inset-16 bg-gradient-to-br from-muted to-muted/50 rounded-full flex items-center justify-center shadow-premium-lg">
-                <div className="text-center space-y-2">
-                  <div className="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Play className="w-8 h-8 text-primary-foreground ml-1" />
+              {/* Inner Content - Hero Image */}
+              <div className="absolute inset-12 rounded-full overflow-hidden shadow-premium-lg">
+                <img 
+                  src="/images/hero/wheel-hero.jpg" 
+                  alt="Premium alloy wheel repair"
+                  className="w-full h-full object-cover"
+                />
+                {/* Overlay for text readability */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                {/* Play button overlay */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="text-center space-y-2">
+                    <div className="w-16 h-16 bg-primary/90 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-2 hover:bg-primary transition-colors cursor-pointer">
+                      <Play className="w-7 h-7 text-primary-foreground ml-1" />
+                    </div>
+                    <p className="font-display text-lg font-bold text-white drop-shadow-lg">
+                      CNC Precision
+                    </p>
+                    <p className="text-sm text-white/90 drop-shadow-md">
+                      Factory-finish results
+                    </p>
                   </div>
-                  <p className="font-display text-xl font-bold text-foreground">
-                    CNC Precision
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    Factory-finish results
-                  </p>
                 </div>
               </div>
 
