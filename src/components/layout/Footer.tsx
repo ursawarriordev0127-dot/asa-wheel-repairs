@@ -9,7 +9,6 @@ const services = [
 ];
 
 const quickLinks = [
-  { name: "How It Works", href: "/how-it-works" },
   { name: "Gallery", href: "/gallery" },
   { name: "FAQ", href: "/faq" },
   { name: "Contact", href: "/contact" },
