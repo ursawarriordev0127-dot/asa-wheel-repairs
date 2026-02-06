@@ -123,7 +123,7 @@ export function HeroSection() {
               {/* Inner Content - Hero Image */}
               <div className="absolute inset-12 rounded-full overflow-hidden shadow-premium-lg">
                 <img 
-                  src="/images/hero/wheel-hero.jpg" 
+                  src="https://static.wixstatic.com/media/575d66_08e401a72d694bce8169854245bbd9fa~mv2.jpeg/v1/fill/w_1440,h_766,fp_0.50_0.50,q_85,enc_avif,quality_auto/575d66_08e401a72d694bce8169854245bbd9fa~mv2.jpeg" 
                   alt="Premium alloy wheel repair"
                   className="w-full h-full object-cover"
                 />
