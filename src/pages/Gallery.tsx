@@ -9,54 +9,7 @@ import { Button } from "@/components/ui/button";
 
 // ─── Gallery Images ───────────────────────────────────────────────────────────
 const galleryImages = [
-  {
-    id: 1,
-    category: "Diamond Cut",
-    title: "CNC Diamond Cut Finish",
-    url: "/images/gallery/wheel-01.jpg",
-  },
-  {
-    id: 2,
-    category: "Diamond Cut",
-    title: "Premium Wheel Restoration",
-    url: "/images/gallery/wheel-02.jpg",
-  },
-  {
-    id: 3,
-    category: "Custom Colour",
-    title: "Custom Coloured Alloy Wheels",
-    url: "/images/gallery/wheel-03.jpg",
-  },
-  {
-    id: 4,
-    category: "Custom Colour",
-    title: "Sport Wheel Customization",
-    url: "/images/gallery/wheel-04.jpg",
-  },
-  {
-    id: 5,
-    category: "Cosmetic",
-    title: "Luxury Vehicle Wheels",
-    url: "/images/gallery/wheel-05.jpg",
-  },
-  {
-    id: 6,
-    category: "Diamond Cut",
-    title: "Classic Sports Car Wheels",
-    url: "/images/gallery/wheel-06.jpg",
-  },
-  {
-    id: 7,
-    category: "Cosmetic",
-    title: "Performance Wheel Repair",
-    url: "/images/gallery/wheel-07.jpg",
-  },
-  {
-    id: 8,
-    category: "Cosmetic",
-    title: "Executive Sedan Wheels",
-    url: "/images/gallery/wheel-08.jpg",
-  },
+  
   // ── New gallery photos ──
   {
     id: 9,
@@ -75,12 +28,6 @@ const galleryImages = [
     category: "Diamond Cut",
     title: "Diamond Cut Close-Up Detail",
     url: "/images/gallery/wheel-11.jpg",
-  },
-  {
-    id: 12,
-    category: "Workshop",
-    title: "CNC Diamond Cut Machine",
-    url: "/images/gallery/wheel-12.jpg",
   },
   {
     id: 13,
@@ -167,8 +114,7 @@ const galleryCategories = [
   "All",
   "Diamond Cut",
   "Cosmetic",
-  "Custom Colour",
-  "Workshop",
+  "Custom Colour"
 ];
 const beforeAfterCategories = ["All", "Colour Change", "Damage Repair"];
 
