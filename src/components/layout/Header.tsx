@@ -42,9 +42,11 @@ export function Header() {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3">
             <img 
-              src="/logo.jpg" 
+              src="/logo.png" 
               alt="ASA Wheel Repairs Logo" 
-              className="h-24 w-auto"
+              className={`w-auto transition-all duration-300 ${
+                isScrolled ? "h-16" : "h-28 md:h-32"
+              }`}
             />
             {/* <div className="hidden sm:block">
               <p className="text-white font-display text-lg font-bold tracking-wide">

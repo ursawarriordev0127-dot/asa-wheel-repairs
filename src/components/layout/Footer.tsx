@@ -26,9 +26,9 @@ export function Footer() {
           <div className="space-y-6">
             <div className="flex items-center gap-3">
               <img 
-                src="/logo.jpg" 
+                src="/logo.png" 
                 alt="ASA Wheel Repairs Logo" 
-                className="h-12 w-auto"
+                className="h-20 w-auto"
               />
               {/* <div>
                 <p className="font-display text-lg font-bold tracking-wide">
