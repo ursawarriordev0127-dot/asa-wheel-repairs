@@ -1,7 +1,6 @@
 import { Layout } from "@/components/layout/Layout";
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
 import { X, ChevronLeft, ChevronRight, Play, ArrowRight } from "lucide-react";
 import { BeforeAfterSlider } from "@/components/BeforeAfterSlider";
 import { Link } from "react-router-dom";
@@ -273,14 +272,16 @@ const workshopVideos = [
   {
     id: "vid-1",
     title: "CNC Diamond Cutting Process",
-    description: "Watch our CNC machine precision-cutting a wheel to factory-perfect finish",
+    description:
+      "Watch our CNC machine precision-cutting a wheel to factory-perfect finish",
     url: "/images/videos/cnc-cutting-01.mp4",
     category: "Diamond Cut",
   },
   {
     id: "vid-2",
     title: "CNC Machine in Action",
-    description: "See the diamond-tipped tool cutting perfect lines on an alloy wheel",
+    description:
+      "See the diamond-tipped tool cutting perfect lines on an alloy wheel",
     url: "/images/videos/cnc-cutting-02.mp4",
     category: "Diamond Cut",
   },
@@ -294,7 +295,8 @@ const workshopVideos = [
   {
     id: "vid-4",
     title: "Custom Colour Application",
-    description: "Professional spray booth application of a custom gloss black finish",
+    description:
+      "Professional spray booth application of a custom gloss black finish",
     url: "/images/videos/colour-change-01.mp4",
     category: "Custom Colour",
   },
@@ -315,15 +317,6 @@ export default function Gallery() {
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const [playingVideo, setPlayingVideo] = useState<string | null>(null);
-  const baRef = useRef(null);
-  const galleryRef = useRef(null);
-  const videoRef = useRef(null);
-  const isBAInView = useInView(baRef, { once: true, margin: "-100px" });
-  const isGalleryInView = useInView(galleryRef, {
-    once: true,
-    margin: "-100px",
-  });
-  const isVideoInView = useInView(videoRef, { once: true, margin: "-100px" });
 
   const filteredImages =
     selectedCategory === "All"
@@ -378,13 +371,13 @@ export default function Gallery() {
         </section>
 
         {/* ═══ BEFORE & AFTER SECTION ═══ */}
-        <section ref={baRef} className="py-20 bg-background">
+        <section className="py-20 bg-background">
           <div className="container mx-auto px-4">
             {/* Section Header */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
-              animate={isBAInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
               className="text-center max-w-2xl mx-auto mb-12"
             >
               <span className="text-primary font-medium text-sm uppercase tracking-wider">
@@ -418,43 +411,41 @@ export default function Gallery() {
 
             {/* B&A Grid */}
             <div className="grid md:grid-cols-2 gap-10 max-w-5xl mx-auto">
-              {filteredBA.map((item, index) => (
-                <motion.div
-                  key={item.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={isBAInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.5, delay: index * 0.15 }}
-                  className="group"
-                >
-                  <BeforeAfterSlider
-                    beforeImage={item.beforeImage}
-                    afterImage={item.afterImage}
-                    beforeLabel={item.beforeLabel}
-                    afterLabel={item.afterLabel}
-                    className="shadow-premium-lg mb-4"
-                  />
-                  <div className="px-1">
-                    <span className="text-primary text-xs font-medium uppercase tracking-wider">
-                      {item.category}
-                    </span>
-                    <h3 className="text-lg font-display font-bold text-foreground mt-1 mb-2">
-                      {item.title}
-                    </h3>
-                    <p className="text-muted-foreground text-sm leading-relaxed">
-                      {item.description}
-                    </p>
-                  </div>
-                </motion.div>
-              ))}
+              <AnimatePresence mode="wait">
+                {filteredBA.map((item, index) => (
+                  <motion.div
+                    key={item.id}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.4, delay: index * 0.1 }}
+                    className="group"
+                  >
+                    <BeforeAfterSlider
+                      beforeImage={item.beforeImage}
+                      afterImage={item.afterImage}
+                      beforeLabel={item.beforeLabel}
+                      afterLabel={item.afterLabel}
+                      className="shadow-premium-lg mb-4"
+                    />
+                    <div className="px-1">
+                      <span className="text-primary text-xs font-medium uppercase tracking-wider">
+                        {item.category}
+                      </span>
+                      <h3 className="text-lg font-display font-bold text-foreground mt-1 mb-2">
+                        {item.title}
+                      </h3>
+                      <p className="text-muted-foreground text-sm leading-relaxed">
+                        {item.description}
+                      </p>
+                    </div>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
             </div>
 
             {/* CTA */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isBAInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.6 }}
-              className="text-center mt-12"
-            >
+            <div className="text-center mt-12">
               <p className="text-muted-foreground mb-4">
                 Want results like these for your wheels?
               </p>
@@ -463,7 +454,7 @@ export default function Gallery() {
                   Get Your Free Quote
                 </Button>
               </Link>
-            </motion.div>
+            </div>
           </div>
         </section>
 
@@ -471,14 +462,9 @@ export default function Gallery() {
         <div className="border-b border-border" />
 
         {/* ═══ WORKSHOP VIDEOS SECTION ═══ */}
-        <section ref={videoRef} className="py-20 bg-secondary/30">
+        <section className="py-20 bg-secondary/30">
           <div className="container mx-auto px-4">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isVideoInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5 }}
-              className="text-center max-w-2xl mx-auto mb-12"
-            >
+            <div className="text-center max-w-2xl mx-auto mb-12">
               <span className="text-primary font-medium text-sm uppercase tracking-wider">
                 Watch Us Work
               </span>
@@ -489,14 +475,14 @@ export default function Gallery() {
                 See our CNC machines and expert technicians in action — real
                 footage from our Sydney workshop.
               </p>
-            </motion.div>
+            </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
               {workshopVideos.map((video, index) => (
                 <motion.div
                   key={video.id}
                   initial={{ opacity: 0, y: 20 }}
-                  animate={isVideoInView ? { opacity: 1, y: 0 } : {}}
+                  animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: index * 0.1 }}
                   className="group"
                 >
@@ -548,15 +534,10 @@ export default function Gallery() {
         <div className="border-b border-border" />
 
         {/* ═══ FULL GALLERY SECTION ═══ */}
-        <section ref={galleryRef} className="py-20 bg-muted/30">
+        <section className="py-20 bg-muted/30">
           <div className="container mx-auto px-4">
             {/* Section Header */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isGalleryInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5 }}
-              className="text-center max-w-2xl mx-auto mb-12"
-            >
+            <div className="text-center max-w-2xl mx-auto mb-12">
               <span className="text-primary font-medium text-sm uppercase tracking-wider">
                 Our Work
               </span>
@@ -565,9 +546,10 @@ export default function Gallery() {
               </h2>
               <p className="text-muted-foreground leading-relaxed">
                 Browse our full collection of completed projects — diamond cut
-                finishes, cosmetic repairs, custom colours, and CNC workshop shots.
+                finishes, cosmetic repairs, custom colours, and CNC workshop
+                shots.
               </p>
-            </motion.div>
+            </div>
 
             {/* Filter Tabs */}
             <div className="flex flex-wrap justify-center gap-3 mb-12">
@@ -588,48 +570,47 @@ export default function Gallery() {
 
             {/* Gallery Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-              {filteredImages.map((image, index) => (
-                <motion.div
-                  key={image.id}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={isGalleryInView ? { opacity: 1, scale: 1 } : {}}
-                  transition={{ duration: 0.3, delay: index * 0.04 }}
-                  className="group cursor-pointer"
-                  onClick={() => openLightbox(image.id)}
-                >
-                  <div className="relative aspect-square bg-muted rounded-xl overflow-hidden">
-                    <img
-                      src={image.url}
-                      alt={image.title}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                      <span className="text-primary text-xs font-medium uppercase tracking-wider">
-                        {image.category}
-                      </span>
-                      <p className="text-white font-semibold text-sm mt-1">
-                        {image.title}
-                      </p>
+              <AnimatePresence>
+                {filteredImages.map((image, index) => (
+                  <motion.div
+                    key={image.id}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ duration: 0.3, delay: index * 0.03 }}
+                    className="group cursor-pointer"
+                    onClick={() => openLightbox(image.id)}
+                  >
+                    <div className="relative aspect-square bg-muted rounded-xl overflow-hidden">
+                      <img
+                        src={image.url}
+                        alt={image.title}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                        <span className="text-primary text-xs font-medium uppercase tracking-wider">
+                          {image.category}
+                        </span>
+                        <p className="text-white font-semibold text-sm mt-1">
+                          {image.title}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                </motion.div>
-              ))}
+                  </motion.div>
+                ))}
+              </AnimatePresence>
             </div>
 
             {/* Gallery CTA */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isGalleryInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.5 }}
-              className="text-center mt-16"
-            >
+            <div className="text-center mt-16">
               <p className="text-lg font-semibold text-foreground mb-2">
                 Impressed by our work?
               </p>
               <p className="text-muted-foreground mb-6">
-                Get the same professional results for your wheels — free quotes, pickup & delivery available.
+                Get the same professional results for your wheels — free quotes,
+                pickup & delivery available.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link to="/contact">
@@ -641,7 +622,11 @@ export default function Gallery() {
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </Link>
-                <a href="https://wa.me/61450693539" target="_blank" rel="noopener noreferrer">
+                <a
+                  href="https://wa.me/61450693539"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <Button
                     size="lg"
                     variant="outline"
@@ -652,74 +637,79 @@ export default function Gallery() {
                   </Button>
                 </a>
               </div>
-            </motion.div>
+            </div>
           </div>
         </section>
 
         {/* ═══ LIGHTBOX MODAL ═══ */}
-        {selectedImage !== null && (
-          <div
-            className="fixed inset-0 bg-background/95 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-            onClick={() => setSelectedImage(null)}
-          >
+        <AnimatePresence>
+          {selectedImage !== null && (
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              className="relative max-w-4xl w-full"
-              onClick={(e) => e.stopPropagation()}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-background/95 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+              onClick={() => setSelectedImage(null)}
             >
-              {/* Close */}
-              <button
-                onClick={() => setSelectedImage(null)}
-                className="absolute -top-12 right-0 text-foreground hover:text-primary transition-colors z-50"
-                aria-label="Close lightbox"
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                className="relative max-w-4xl w-full"
+                onClick={(e) => e.stopPropagation()}
               >
-                <X className="w-6 h-6" />
-              </button>
+                {/* Close */}
+                <button
+                  onClick={() => setSelectedImage(null)}
+                  className="absolute -top-12 right-0 text-foreground hover:text-primary transition-colors z-50"
+                  aria-label="Close lightbox"
+                >
+                  <X className="w-6 h-6" />
+                </button>
 
-              {/* Image */}
-              <div className="bg-muted rounded-xl overflow-hidden">
-                {galleryImages[lightboxIndex] && (
-                  <img
-                    src={galleryImages[lightboxIndex].url}
-                    alt={galleryImages[lightboxIndex].title}
-                    className="w-full h-auto max-h-[80vh] object-contain"
-                  />
-                )}
-                <div className="p-6 bg-background flex items-center justify-between">
-                  <div>
-                    <span className="text-primary text-xs font-medium uppercase tracking-wider">
-                      {galleryImages[lightboxIndex]?.category}
+                {/* Image */}
+                <div className="bg-muted rounded-xl overflow-hidden">
+                  {galleryImages[lightboxIndex] && (
+                    <img
+                      src={galleryImages[lightboxIndex].url}
+                      alt={galleryImages[lightboxIndex].title}
+                      className="w-full h-auto max-h-[80vh] object-contain"
+                    />
+                  )}
+                  <div className="p-6 bg-background flex items-center justify-between">
+                    <div>
+                      <span className="text-primary text-xs font-medium uppercase tracking-wider">
+                        {galleryImages[lightboxIndex]?.category}
+                      </span>
+                      <p className="text-lg font-semibold text-foreground mt-1">
+                        {galleryImages[lightboxIndex]?.title}
+                      </p>
+                    </div>
+                    <span className="text-muted-foreground text-sm">
+                      {lightboxIndex + 1} / {galleryImages.length}
                     </span>
-                    <p className="text-lg font-semibold text-foreground mt-1">
-                      {galleryImages[lightboxIndex]?.title}
-                    </p>
                   </div>
-                  <span className="text-muted-foreground text-sm">
-                    {lightboxIndex + 1} / {galleryImages.length}
-                  </span>
                 </div>
-              </div>
 
-              {/* Prev / Next */}
-              <button
-                onClick={prevImage}
-                className="absolute top-1/2 -translate-y-1/2 -left-4 md:-left-14 w-10 h-10 bg-background border border-border rounded-full flex items-center justify-center hover:bg-muted transition-colors shadow-lg"
-                aria-label="Previous image"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-              <button
-                onClick={nextImage}
-                className="absolute top-1/2 -translate-y-1/2 -right-4 md:-right-14 w-10 h-10 bg-background border border-border rounded-full flex items-center justify-center hover:bg-muted transition-colors shadow-lg"
-                aria-label="Next image"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
+                {/* Prev / Next */}
+                <button
+                  onClick={prevImage}
+                  className="absolute top-1/2 -translate-y-1/2 -left-4 md:-left-14 w-10 h-10 bg-background border border-border rounded-full flex items-center justify-center hover:bg-muted transition-colors shadow-lg"
+                  aria-label="Previous image"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+                <button
+                  onClick={nextImage}
+                  className="absolute top-1/2 -translate-y-1/2 -right-4 md:-right-14 w-10 h-10 bg-background border border-border rounded-full flex items-center justify-center hover:bg-muted transition-colors shadow-lg"
+                  aria-label="Next image"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+              </motion.div>
             </motion.div>
-          </div>
-        )}
+          )}
+        </AnimatePresence>
       </div>
     </Layout>
   );
