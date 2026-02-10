@@ -165,12 +165,12 @@ export function TransformationsShowcase() {
         >
           <div className="flex gap-3 justify-center overflow-hidden">
             {[
-              "/images/gallery/wheel-09.jpg",
-              "/images/gallery/wheel-11.jpg",
-              "/images/gallery/wheel-13.jpg",
-              "/images/before-after/colour-after-02.jpg",
-              "/images/before-after/amg-repaired.jpg",
-              "/images/before-after/colour-after-03.jpg",
+              "/images/gallery/diamond-cut-bmw-01.jpg",
+              "/images/gallery/colour-bmw-gold-closeup.jpg",
+              "/images/gallery/colour-mesh-black-02.jpg",
+              "/images/gallery/cosmetic-ferrari-fullcar.jpg",
+              "/images/gallery/colour-vw-black-oncar.jpg",
+              "/images/gallery/cosmetic-lamborghini-urus.jpg",
             ].map((src, index) => (
               <Link
                 key={index}
