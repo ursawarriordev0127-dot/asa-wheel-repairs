@@ -79,7 +79,7 @@ export default function Services() {
     <Layout>
       <div className="pb-16">
         {/* Hero Section */}
-        <section className="bg-secondary py-16 pt-32">
+        <section className="bg-secondary py-16 pt-40">
           <div className="container mx-auto px-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
