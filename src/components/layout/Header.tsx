@@ -42,7 +42,7 @@ export function Header() {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3">
             <img 
-              src="/logo.png" 
+              src="/logo.jpg" 
               alt="ASA Wheel Repairs Logo" 
               className="h-24 w-auto"
             />
