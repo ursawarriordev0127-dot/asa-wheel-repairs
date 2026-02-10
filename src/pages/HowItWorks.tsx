@@ -151,36 +151,19 @@ export default function HowItWorks() {
                     {/* Visual */}
                     <div className={index % 2 === 1 ? "md:col-start-1 md:row-start-1" : ""}>
                       <div className="bg-muted rounded-xl aspect-square overflow-hidden relative">
-                        {index === 0 && (
-                          <img
-                            src="https://static.wixstatic.com/media/575d66_08e401a72d694bce8169854245bbd9fa~mv2.jpeg/v1/fill/w_600,h_600,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/575d66_08e401a72d694bce8169854245bbd9fa~mv2.jpeg"
-                            alt={step.title}
-                            className="w-full h-full object-cover"
-                          />
-                        )}
-                        {index === 1 && (
-                          <div className="w-full h-full relative">
-                            <img
-                              src="https://static.wixstatic.com/media/4b2a574b8a8e4c9a85009f628f3a2cf6.jpg/v1/fill/w_600,h_600,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Stack%20of%20Tires.jpg"
-                              alt={step.title}
-                              className="w-full h-full object-cover"
-                            />
-                          </div>
-                        )}
-                        {index === 2 && (
-                          <img
-                            src="https://static.wixstatic.com/media/81236c_2eefd8d8740b4a8db1557e9fd9435679~mv2.jpg/v1/fill/w_600,h_600,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/lenco-mag-machine.jpg"
-                            alt={step.title}
-                            className="w-full h-full object-cover"
-                          />
-                        )}
-                        {index === 3 && (
-                          <img
-                            src="https://static.wixstatic.com/media/575d66_8e4314d251114af3a8f821b0975e4c9c~mv2.jpeg/v1/fill/w_600,h_600,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/mclaren_forged3.jpeg"
-                            alt={step.title}
-                            className="w-full h-full object-cover"
-                          />
-                        )}
+                        <img
+                          src={
+                            index === 0
+                              ? "/images/process/step-01-quote.jpg"
+                              : index === 1
+                              ? "/images/process/step-02-pickup.jpg"
+                              : index === 2
+                              ? "/images/process/step-03-repair.jpg"
+                              : "/images/process/step-04-delivery.jpg"
+                          }
+                          alt={step.title}
+                          className="w-full h-full object-cover"
+                        />
                       </div>
                     </div>
                   </motion.div>
@@ -222,8 +205,8 @@ export default function HowItWorks() {
                 >
                   <Button
                     size="lg"
-                    variant="outline"
-                    className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground/10"
+                    variant="destructive"
+                    className="w-full sm:w-auto border-secondary-foreground/20 hover:bg-secondary-foreground/10 gap-2 text-green"
                   >
                     WhatsApp Us
                   </Button>

@@ -7,7 +7,6 @@ import { motion, AnimatePresence } from "framer-motion";
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/services", label: "Services" },
-  { href: "/how-it-works", label: "How It Works" },
   { href: "/gallery", label: "Gallery" },
   { href: "/faq", label: "FAQ" },
   { href: "/contact", label: "Contact" },
@@ -42,21 +41,19 @@ export function Header() {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3">
-            <div className="relative">
-              <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center">
-                <span className="text-primary-foreground font-display font-bold text-xl">
-                  ASA
-                </span>
-              </div>
-            </div>
-            <div className="hidden sm:block">
+            <img 
+              src="/logo.png" 
+              alt="ASA Wheel Repairs Logo" 
+              className="h-24 w-auto"
+            />
+            {/* <div className="hidden sm:block">
               <p className="text-white font-display text-lg font-bold tracking-wide">
                 ASA WHEEL REPAIRS
               </p>
               <p className="text-white/80 text-xs">
                 Sydney's CNC Specialists
               </p>
-            </div>
+            </div> */}
           </Link>
 
           {/* Desktop Navigation */}
@@ -80,22 +77,14 @@ export function Header() {
           <div className="hidden md:flex items-center gap-3">
             <a
               href="tel:0450693539"
-              className="flex items-center gap-2 text-white hover:text-primary transition-colors"
-            >
-              <Phone className="w-4 h-4" />
-              <span className="font-medium">0450 693 539</span>
-            </a>
-            <a
-              href="https://wa.me/61450693539"
-              target="_blank"
               rel="noopener noreferrer"
             >
               <Button
                 size="sm"
                 className="bg-primary hover:bg-primary/90 text-primary-foreground gap-2"
               >
-                <MessageCircle className="w-4 h-4" />
-                WhatsApp
+                <Phone className="w-4 h-4" />
+                0450 693 539
               </Button>
             </a>
             <Link to="/contact">

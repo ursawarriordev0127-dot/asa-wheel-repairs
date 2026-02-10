@@ -4,59 +4,59 @@ import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { X } from "lucide-react";
 
-// Gallery images from old website
+// Gallery images - using local images (replace with AI-generated images later)
 const galleryImages = [
   {
     id: 1,
     category: "Diamond Cut",
-    title: "CNC Diamond Cut Machine",
-    url: "https://static.wixstatic.com/media/81236c_2eefd8d8740b4a8db1557e9fd9435679~mv2.jpg/v1/fill/w_600,h_600,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/lenco-mag-machine.jpg",
+    title: "CNC Diamond Cut Finish",
+    url: "/images/gallery/wheel-01.jpg",
   },
   {
     id: 2,
-    category: "Cosmetic",
-    title: "Forged Wheel Repair",
-    url: "https://static.wixstatic.com/media/575d66_8e4314d251114af3a8f821b0975e4c9c~mv2.jpeg/v1/fill/w_600,h_600,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/mclaren_forged3.jpeg",
+    category: "Diamond Cut",
+    title: "Premium Wheel Restoration",
+    url: "/images/gallery/wheel-02.jpg",
   },
   {
     id: 3,
     category: "Custom Colour",
     title: "Custom Coloured Alloy Wheels",
-    url: "https://static.wixstatic.com/media/81236c_33e0cdc1fc474cbdada63c494584fa6a~mv2.png/v1/fill/w_600,h_600,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Coloured%20Alloy%201.png",
+    url: "/images/gallery/wheel-03.jpg",
   },
   {
     id: 4,
-    category: "Diamond Cut",
-    title: "Premium Wheel Restoration",
-    url: "https://static.wixstatic.com/media/575d66_08e401a72d694bce8169854245bbd9fa~mv2.jpeg/v1/fill/w_600,h_600,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/575d66_08e401a72d694bce8169854245bbd9fa~mv2.jpeg",
+    category: "Custom Colour",
+    title: "Sport Wheel Customization",
+    url: "/images/gallery/wheel-04.jpg",
   },
   {
     id: 5,
-    category: "Tyre Service",
-    title: "Tyre Service & Fitting",
-    url: "https://static.wixstatic.com/media/4b2a574b8a8e4c9a85009f628f3a2cf6.jpg/v1/fill/w_600,h_600,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Stack%20of%20Tires.jpg",
+    category: "Cosmetic",
+    title: "Luxury Vehicle Wheels",
+    url: "/images/gallery/wheel-05.jpg",
   },
   {
     id: 6,
-    category: "Cosmetic",
-    title: "Wheel Damage Repair",
-    url: "https://static.wixstatic.com/media/575d66_8e4314d251114af3a8f821b0975e4c9c~mv2.jpeg/v1/fill/w_600,h_600,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/mclaren_forged3.jpeg",
+    category: "Diamond Cut",
+    title: "Classic Sports Car Wheels",
+    url: "/images/gallery/wheel-06.jpg",
   },
   {
     id: 7,
-    category: "Diamond Cut",
-    title: "CNC Precision Machining",
-    url: "https://static.wixstatic.com/media/81236c_2eefd8d8740b4a8db1557e9fd9435679~mv2.jpg/v1/fill/w_600,h_600,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/lenco-mag-machine.jpg",
+    category: "Cosmetic",
+    title: "Performance Wheel Repair",
+    url: "/images/gallery/wheel-07.jpg",
   },
   {
     id: 8,
-    category: "Custom Colour",
-    title: "Custom Wheel Finishes",
-    url: "https://static.wixstatic.com/media/81236c_33e0cdc1fc474cbdada63c494584fa6a~mv2.png/v1/fill/w_600,h_600,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Coloured%20Alloy%201.png",
+    category: "Cosmetic",
+    title: "Executive Sedan Wheels",
+    url: "/images/gallery/wheel-08.jpg",
   },
 ];
 
-const categories = ["All", "Diamond Cut", "Cosmetic", "Custom Colour", "Tyre Service"];
+const categories = ["All", "Diamond Cut", "Cosmetic", "Custom Colour"];
 
 export default function Gallery() {
   const [selectedCategory, setSelectedCategory] = useState("All");

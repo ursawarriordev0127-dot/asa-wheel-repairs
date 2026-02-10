@@ -1,9 +1,18 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Phone, Play } from "lucide-react";
+import { ArrowRight, Phone, Play, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useCallback } from "react";
+
+const VIDEO_URL =
+  "https://video.wixstatic.com/video/575d66_54b98cb2432a4ce1af91fddea9fa5e8a/1080p/mp4/file.mp4";
 
 export function HeroSection() {
+  const [isVideoOpen, setIsVideoOpen] = useState(false);
+
+  const openVideo = useCallback(() => setIsVideoOpen(true), []);
+  const closeVideo = useCallback(() => setIsVideoOpen(false), []);
+
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden bg-secondary">
       {/* Background Pattern */}
@@ -75,7 +84,7 @@ export function HeroSection() {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="w-full sm:w-auto border-secondary-foreground/20 text-secondary-foreground hover:bg-secondary-foreground/10 gap-2"
+                  className="w-full sm:w-auto border-secondary-foreground/20 text-green hover:bg-secondary-foreground/10 gap-2"
                 >
                   <Phone className="w-4 h-4" />
                   0450 693 539
@@ -120,18 +129,32 @@ export function HeroSection() {
               {/* Middle Ring */}
               <div className="absolute inset-8 border-2 border-primary/30 rounded-full" />
               
-              {/* Inner Content */}
-              <div className="absolute inset-16 bg-gradient-to-br from-muted to-muted/50 rounded-full flex items-center justify-center shadow-premium-lg">
-                <div className="text-center space-y-2">
-                  <div className="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Play className="w-8 h-8 text-primary-foreground ml-1" />
+              {/* Inner Content - Hero Image */}
+              <div className="absolute inset-12 rounded-full overflow-hidden shadow-premium-lg">
+                <img 
+                  src="https://static.wixstatic.com/media/575d66_08e401a72d694bce8169854245bbd9fa~mv2.jpeg/v1/fill/w_1440,h_766,fp_0.50_0.50,q_85,enc_avif,quality_auto/575d66_08e401a72d694bce8169854245bbd9fa~mv2.jpeg" 
+                  alt="Premium alloy wheel repair"
+                  className="w-full h-full object-cover"
+                />
+                {/* Overlay for text readability */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                {/* Play button overlay */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="text-center space-y-2">
+                    <button
+                      onClick={openVideo}
+                      aria-label="Play video"
+                      className="w-16 h-16 bg-primary/90 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-2 hover:bg-primary hover:scale-110 transition-all cursor-pointer"
+                    >
+                      <Play className="w-7 h-7 text-primary-foreground ml-1" />
+                    </button>
+                    <p className="font-display text-lg font-bold text-white drop-shadow-lg">
+                      CNC Precision
+                    </p>
+                    <p className="text-sm text-white/90 drop-shadow-md">
+                      Factory-finish results
+                    </p>
                   </div>
-                  <p className="font-display text-xl font-bold text-foreground">
-                    CNC Precision
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    Factory-finish results
-                  </p>
                 </div>
               </div>
 
@@ -178,6 +201,43 @@ export function HeroSection() {
           </div>
         </div>
       </motion.div>
+
+      {/* Video Modal */}
+      <AnimatePresence>
+        {isVideoOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+            onClick={closeVideo}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="relative w-full max-w-4xl aspect-video rounded-2xl overflow-hidden shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <video
+                src={VIDEO_URL}
+                className="w-full h-full object-cover"
+                controls
+                muted
+                playsInline
+              />
+              <button
+                onClick={closeVideo}
+                aria-label="Close video"
+                className="absolute top-3 right-3 w-10 h-10 bg-black/60 hover:bg-black/80 backdrop-blur-sm rounded-full flex items-center justify-center transition-colors"
+              >
+                <X className="w-5 h-5 text-white" />
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

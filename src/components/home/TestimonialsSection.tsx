@@ -12,7 +12,7 @@ const testimonials = [
     content:
       "Just wanted to touch base to say thank you for your ongoing support and services. You and your team make it easy to do business every month and the quality is always to Mercedes Benz standards.",
     rating: 5,
-    logo: "https://static.wixstatic.com/media/575d66_701eb0299d3d43c2a9a4432c38b6166a~mv2.png/v1/fill/w_200,h_200,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Merc.png",
+    initials: "MB",
   },
   {
     id: 2,
@@ -21,7 +21,7 @@ const testimonials = [
     content:
       "Thank you for your excellent quality of work, quick turn around and your professional service. I know I can always rely on you to perform a high-end repair when needed. I recommend your work to everyone that wants quality affordable repair.",
     rating: 5,
-    logo: "https://static.wixstatic.com/media/575d66_4ed9fab8e60240f5982583233e2284d7~mv2.jpeg/v1/fill/w_200,h_200,al_c,lg_2,q_80,enc_avif,quality_auto/WAG.jpeg",
+    initials: "WA",
   },
   {
     id: 3,
@@ -30,7 +30,7 @@ const testimonials = [
     content:
       "Very professional and quick service from ASA. I have been using them for Wheel repairs for over 5 years now and always here on time and always does a great job from a scratch to a full rim repair. Very highly recommend Ronnie and his team, will not disappoint.",
     rating: 5,
-    logo: "https://static.wixstatic.com/media/575d66_a0055f8933934c0ab6d4ad458306a580~mv2.png/v1/fill/w_200,h_200,al_c,q_85,enc_avif,quality_auto/Nepean%20Motor.png",
+    initials: "NM",
   },
   {
     id: 4,
@@ -39,7 +39,7 @@ const testimonials = [
     content:
       "Just wanted to touch base to say thank you for your ongoing support and services. You and your team make it easy to do business every month and the quality is always to Mercedes Benz standards.",
     rating: 5,
-    logo: "https://static.wixstatic.com/media/575d66_701eb0299d3d43c2a9a4432c38b6166a~mv2.png/v1/fill/w_200,h_200,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Merc.png",
+    initials: "FM",
   },
   {
     id: 5,
@@ -48,7 +48,7 @@ const testimonials = [
     content:
       "Thank you for your excellent quality of work, quick turn around and your professional service. I know I can always rely on you to perform a high-end repair when needed. I recommend your work to everyone that wants quality affordable repair.",
     rating: 5,
-    logo: "https://static.wixstatic.com/media/575d66_4ed9fab8e60240f5982583233e2284d7~mv2.jpeg/v1/fill/w_200,h_200,al_c,lg_2,q_80,enc_avif,quality_auto/WAG.jpeg",
+    initials: "JK",
   },
 ];
 
@@ -114,13 +114,11 @@ export function TestimonialsSection() {
 
                   {/* Author */}
                   <div className="flex items-center gap-4">
-                    {testimonials[currentIndex].logo && (
-                      <img
-                        src={testimonials[currentIndex].logo}
-                        alt={testimonials[currentIndex].name}
-                        className="w-16 h-16 object-contain rounded-lg bg-muted p-2"
-                      />
-                    )}
+                    <div className="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center">
+                      <span className="text-2xl font-display font-bold text-primary">
+                        {testimonials[currentIndex].initials}
+                      </span>
+                    </div>
                     <div>
                       <p className="font-display font-bold text-lg text-card-foreground">
                         {testimonials[currentIndex].name}

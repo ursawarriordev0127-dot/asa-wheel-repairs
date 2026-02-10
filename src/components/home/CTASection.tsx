@@ -56,7 +56,7 @@ export function CTASection() {
               <Button
                 size="lg"
                 variant="outline"
-                className="w-full sm:w-auto border-secondary-foreground/20 text-secondary-foreground hover:bg-secondary-foreground/10 gap-2"
+                className="w-full sm:w-auto border-secondary-foreground/20 text-secondary-foreground hover:bg-secondary-foreground/10 gap-2 text-green"
               >
                 <MessageCircle className="w-5 h-5" />
                 WhatsApp Us
@@ -66,7 +66,7 @@ export function CTASection() {
               <Button
                 size="lg"
                 variant="outline"
-                className="w-full sm:w-auto border-secondary-foreground/20 text-secondary-foreground hover:bg-secondary-foreground/10 gap-2"
+                className="w-full sm:w-auto border-secondary-foreground/20 text-secondary-foreground hover:bg-secondary-foreground/10 gap-2 text-green"
               >
                 <Phone className="w-5 h-5" />
                 Call Now

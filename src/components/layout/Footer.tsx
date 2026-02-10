@@ -9,7 +9,6 @@ const services = [
 ];
 
 const quickLinks = [
-  { name: "How It Works", href: "/how-it-works" },
   { name: "Gallery", href: "/gallery" },
   { name: "FAQ", href: "/faq" },
   { name: "Contact", href: "/contact" },
@@ -26,19 +25,19 @@ export function Footer() {
           {/* Company Info */}
           <div className="space-y-6">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center">
-                <span className="text-primary-foreground font-display font-bold text-xl">
-                  ASA
-                </span>
-              </div>
-              <div>
+              <img 
+                src="/logo.png" 
+                alt="ASA Wheel Repairs Logo" 
+                className="h-12 w-auto"
+              />
+              {/* <div>
                 <p className="font-display text-lg font-bold tracking-wide">
                   ASA WHEEL REPAIRS
                 </p>
                 <p className="text-muted-foreground text-xs">
                   Est. 2012
                 </p>
-              </div>
+              </div> */}
             </div>
             <p className="text-muted-foreground text-sm leading-relaxed">
               Sydney's leading mobile CNC wheel repair specialists. Professional diamond cut, 
@@ -160,20 +159,6 @@ export function Footer() {
                 </div>
               </li>
             </ul>
-          </div>
-        </div>
-      </div>
-
-      {/* Trusted Partners */}
-      <div className="border-t border-border/20">
-        <div className="container mx-auto px-4 py-8">
-          <p className="text-center text-muted-foreground text-sm mb-6">
-            Trusted by Sydney's leading dealerships
-          </p>
-          <div className="flex flex-wrap justify-center items-center gap-8 text-muted-foreground/60">
-            <span className="font-display text-lg">Mercedes-Benz</span>
-            <span className="font-display text-lg">Windsor Auto Group</span>
-            <span className="font-display text-lg">Nepean Motor Group</span>
           </div>
         </div>
       </div>

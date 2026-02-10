@@ -53,23 +53,7 @@ const services = [
     ],
     details:
       "Give your vehicle a unique look with our custom colour service. We offer a comprehensive range of colours and finishes including gloss, matte, and satin options. Our professional powder coating and painting services ensure a durable, long-lasting finish that will make your wheels stand out.",
-  },
-  {
-    id: "tyre-service",
-    icon: CircleDot,
-    title: "Tyre Service",
-    description:
-      "Complete tyre services including supply, fitting, and balancing. We work with all major tyre brands.",
-    features: [
-      "All major brands",
-      "Professional fitting",
-      "Wheel balancing",
-      "Tyre pressure monitoring",
-      "Tyre rotation services",
-    ],
-    details:
-      "We offer comprehensive tyre services to complement our wheel repair work. From supply and fitting to balancing and rotation, we work with all major tyre brands to ensure your vehicle is safe and performs optimally. Our mobile service means we can come to you.",
-  },
+  }
 ];
 
 export default function Services() {
@@ -162,12 +146,10 @@ export default function Services() {
                         <img
                           src={
                             service.id === "diamond-cut"
-                              ? "https://static.wixstatic.com/media/81236c_2eefd8d8740b4a8db1557e9fd9435679~mv2.jpg/v1/fill/w_800,h_800,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/lenco-mag-machine.jpg"
+                              ? "https://static.wixstatic.com/media/81236c_2eefd8d8740b4a8db1557e9fd9435679~mv2.jpg/v1/fill/w_360,h_360,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/lenco-mag-machine.jpg"
                               : service.id === "cosmetic"
-                              ? "https://static.wixstatic.com/media/575d66_8e4314d251114af3a8f821b0975e4c9c~mv2.jpeg/v1/fill/w_800,h_800,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/mclaren_forged3.jpeg"
-                              : service.id === "custom-colour"
-                              ? "https://static.wixstatic.com/media/81236c_33e0cdc1fc474cbdada63c494584fa6a~mv2.png/v1/fill/w_800,h_800,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Coloured%20Alloy%201.png"
-                              : "https://static.wixstatic.com/media/4b2a574b8a8e4c9a85009f628f3a2cf6.jpg/v1/fill/w_800,h_800,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Stack%20of%20Tires.jpg"
+                              ? "https://static.wixstatic.com/media/575d66_8e4314d251114af3a8f821b0975e4c9c~mv2.jpeg/v1/fill/w_360,h_360,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/mclaren_forged3.jpeg"
+                              : "https://static.wixstatic.com/media/81236c_33e0cdc1fc474cbdada63c494584fa6a~mv2.png/v1/fill/w_360,h_360,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Coloured%20Alloy%201.png"
                           }
                           alt={service.title}
                           className="w-full h-full object-cover"

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 120" fill="none">
+  <defs>
+    <linearGradient id="arcGradient" x1="0" y1="100" x2="80" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#6B6B6B"/>
+      <stop offset="40%" stop-color="#8B2020"/>
+      <stop offset="100%" stop-color="#C41E24"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Outer circular arc (C-shape) -->
+  <path d="
+    M 72 108
+    A 52 52 0 1 1 72 12
+    A 38 38 0 1 0 72 94
+    Z
+  " fill="url(#arcGradient)"/>
+
+  <!-- A.S.A text -->
+  <text x="175" y="52" font-family="Arial Black, Arial, Helvetica, sans-serif" font-size="48" font-weight="900" fill="#C41E24" text-anchor="middle" letter-spacing="2">A.S.A</text>
+
+  <!-- WHEEL REPAIRS text -->
+  <text x="175" y="90" font-family="Arial Black, Arial, Helvetica, sans-serif" font-size="30" font-weight="900" fill="#3D3D3D" text-anchor="middle" letter-spacing="4">WHEEL REPAIRS</text>
+</svg>
+
