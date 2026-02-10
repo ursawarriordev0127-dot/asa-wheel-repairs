@@ -1,6 +1,6 @@
 import { Layout } from "@/components/layout/Layout";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { X, ChevronLeft, ChevronRight, Play, ArrowRight } from "lucide-react";
 import { BeforeAfterSlider } from "@/components/BeforeAfterSlider";
 import { Link } from "react-router-dom";
@@ -196,36 +196,478 @@ const galleryImages = [
     url: "/images/gallery/cnc-wheel-setup.jpg",
   },
 
-  // ── Previous gallery images ──
+  // ── Additional NEW images from latest batch ──
   {
     id: 31,
+    category: "Custom Colour",
+    title: "VW Golf R Blue On Vehicle",
+    url: "/images/gallery/colour-vw-golf-r-blue.jpg",
+  },
+  {
+    id: 32,
+    category: "CNC Machine",
+    title: "VW Diamond Cut CNC Process",
+    url: "/images/gallery/diamond-cut-vw-machine-02.jpg",
+  },
+  {
+    id: 33,
+    category: "CNC Machine",
+    title: "VW CNC Machine Setup",
+    url: "/images/gallery/diamond-cut-vw-machine-03.jpg",
+  },
+  {
+    id: 34,
+    category: "Custom Colour",
+    title: "Peugeot Gunmetal Grey",
+    url: "/images/gallery/colour-peugeot-gunmetal.jpg",
+  },
+  {
+    id: 35,
+    category: "Custom Colour",
+    title: "Peugeot Gunmetal Close-Up",
+    url: "/images/gallery/colour-peugeot-gunmetal-closeup.jpg",
+  },
+  {
+    id: 36,
+    category: "Cosmetic",
+    title: "Lamborghini Full Vehicle Showcase",
+    url: "/images/gallery/cosmetic-lamborghini-full-car.jpg",
+  },
+  {
+    id: 37,
+    category: "Cosmetic",
+    title: "Lamborghini Wheel Top View",
+    url: "/images/gallery/cosmetic-lamborghini-closeup-top.jpg",
+  },
+  {
+    id: 38,
+    category: "Diamond Cut",
+    title: "Hyundai Diamond Cut Set",
+    url: "/images/gallery/diamond-cut-hyundai-set.jpg",
+  },
+  {
+    id: 39,
+    category: "Custom Colour",
+    title: "Hyundai Gloss Black With Tyres",
+    url: "/images/gallery/colour-hyundai-black-with-tyres.jpg",
+  },
+  {
+    id: 40,
+    category: "Diamond Cut",
+    title: "Hyundai Multi-Spoke Diamond Cut Set",
+    url: "/images/gallery/diamond-cut-hyundai-multispoke-set.jpg",
+  },
+  {
+    id: 41,
+    category: "Workshop",
+    title: "Stripped Wheels Ready for Paint",
+    url: "/images/gallery/workshop-stripped-wheels.jpg",
+  },
+  {
+    id: 42,
+    category: "Custom Colour",
+    title: "Chrome Barrel with Black Spokes",
+    url: "/images/gallery/colour-chrome-barrel-black.jpg",
+  },
+  {
+    id: 43,
+    category: "CNC Machine",
+    title: "Mercedes AMG Diamond Cut Process",
+    url: "/images/gallery/diamond-cut-mercedes-amg-process.jpg",
+  },
+  {
+    id: 44,
+    category: "Workshop",
+    title: "Wheels Before Paint Stripping",
+    url: "/images/gallery/workshop-before-stripping.jpg",
+  },
+  {
+    id: 45,
+    category: "Custom Colour",
+    title: "Classic Chrome Wire Wheel",
+    url: "/images/gallery/colour-classic-chrome-wire.jpg",
+  },
+  {
+    id: 46,
+    category: "Custom Colour",
+    title: "Range Rover Gloss Black",
+    url: "/images/gallery/colour-range-rover-black.jpg",
+  },
+  {
+    id: 47,
+    category: "Custom Colour",
+    title: "Range Rover Black Close-Up",
+    url: "/images/gallery/colour-range-rover-black-closeup.jpg",
+  },
+  {
+    id: 48,
+    category: "Diamond Cut",
+    title: "Range Rover Diamond Cut Set",
+    url: "/images/gallery/diamond-cut-range-rover-set.jpg",
+  },
+  {
+    id: 57,
     category: "Diamond Cut",
     title: "Two-Tone Diamond Cut Alloy",
     url: "/images/gallery/wheel-09.jpg",
   },
   {
-    id: 32,
-    category: "Cosmetic",
+    id: 58,
+    category: "Custom Colour",
     title: "Gloss Black Barrel Finish",
     url: "/images/gallery/wheel-10.jpg",
   },
   {
-    id: 33,
+    id: 59,
     category: "Diamond Cut",
     title: "Diamond Cut Close-Up Detail",
     url: "/images/gallery/wheel-11.jpg",
   },
   {
-    id: 34,
-    category: "CNC Machine",
-    title: "CNC Diamond Cut Machine",
-    url: "/images/gallery/wheel-12.jpg",
-  },
-  {
-    id: 35,
+    id: 61,
     category: "Diamond Cut",
     title: "Multi-Spoke Diamond Cut Wheel",
     url: "/images/gallery/wheel-13.jpg",
+  },
+
+  // ── Before & After Photos ──
+  {
+    id: 300,
+    category: "Before & After",
+    title: "Haval Wheel Peeling Paint Close-Up",
+    url: "/images/gallery/ba-haval-peeling-closeup.jpg",
+  },
+  {
+    id: 301,
+    category: "Before & After",
+    title: "Haval Wheel Damage Full View",
+    url: "/images/gallery/ba-haval-damage-full.jpg",
+  },
+  {
+    id: 100,
+    category: "Before & After",
+    title: "Gloss Black Wheel Set Complete",
+    url: "/images/gallery/ba-gloss-black-set.jpg",
+  },
+  {
+    id: 101,
+    category: "Before & After",
+    title: "Before & After Showcase",
+    url: "/images/gallery/ba-showcase-01.png",
+  },
+  {
+    id: 102,
+    category: "Before & After",
+    title: "AMG Kerb Damage Close-Up",
+    url: "/images/gallery/ba-amg-kerb-damage.jpeg",
+  },
+  {
+    id: 103,
+    category: "Before & After",
+    title: "Wheel Damage Assessment",
+    url: "/images/gallery/ba-damage-assessment.jpeg",
+  },
+  {
+    id: 104,
+    category: "Before & After",
+    title: "Alloy Wheel Before Repair",
+    url: "/images/gallery/ba-alloy-before-repair.jpeg",
+  },
+  {
+    id: 105,
+    category: "Before & After",
+    title: "Wheel Restoration Progress",
+    url: "/images/gallery/ba-restoration-progress.jpeg",
+  },
+  {
+    id: 106,
+    category: "Before & After",
+    title: "Damaged Wheel Inspection",
+    url: "/images/gallery/ba-damaged-inspection.jpeg",
+  },
+  {
+    id: 107,
+    category: "Before & After",
+    title: "Wheel Surface Preparation",
+    url: "/images/gallery/ba-surface-preparation.jpeg",
+  },
+  {
+    id: 108,
+    category: "Before & After",
+    title: "Alloy Restoration Before",
+    url: "/images/gallery/ba-alloy-restoration-before.jpeg",
+  },
+  {
+    id: 109,
+    category: "Before & After",
+    title: "Wheel Repair In Progress",
+    url: "/images/gallery/ba-repair-in-progress.jpeg",
+  },
+  {
+    id: 110,
+    category: "Before & After",
+    title: "Pre-Repair Wheel Condition",
+    url: "/images/gallery/ba-pre-repair-condition.jpeg",
+  },
+  {
+    id: 111,
+    category: "Before & After",
+    title: "Wheel Damage Documentation",
+    url: "/images/gallery/ba-damage-documentation.jpeg",
+  },
+  {
+    id: 112,
+    category: "Before & After",
+    title: "BMW Gold Wheel Set Completed",
+    url: "/images/gallery/ba-bmw-gold-set.jpg",
+  },
+  {
+    id: 113,
+    category: "Before & After",
+    title: "Custom Colour Transformation",
+    url: "/images/gallery/ba-colour-transformation.jpg",
+  },
+  {
+    id: 114,
+    category: "Before & After",
+    title: "Alloy Wheel Restored Finish",
+    url: "/images/gallery/ba-restored-finish.jpg",
+  },
+  {
+    id: 115,
+    category: "Before & After",
+    title: "Wheel Repair Result",
+    url: "/images/gallery/ba-repair-result.jpg",
+  },
+  {
+    id: 116,
+    category: "Before & After",
+    title: "Completed Wheel Restoration",
+    url: "/images/gallery/ba-completed-restoration.jpg",
+  },
+  {
+    id: 117,
+    category: "Before & After",
+    title: "Repaired Wheel Close-Up",
+    url: "/images/gallery/ba-repaired-closeup.jpg",
+  },
+  {
+    id: 118,
+    category: "Before & After",
+    title: "CNC Diamond Cut Process Shot",
+    url: "/images/gallery/ba-cnc-process-shot.jpg",
+  },
+  {
+    id: 119,
+    category: "Before & After",
+    title: "Wheel Set Before Treatment",
+    url: "/images/gallery/ba-set-before-treatment.jpg",
+  },
+  {
+    id: 120,
+    category: "Before & After",
+    title: "Alloy Repair Workshop Shot",
+    url: "/images/gallery/ba-repair-workshop-shot.jpg",
+  },
+  {
+    id: 121,
+    category: "Before & After",
+    title: "Finished Wheel Quality Check",
+    url: "/images/gallery/ba-quality-check.jpg",
+  },
+  {
+    id: 122,
+    category: "Before & After",
+    title: "Before & After Wheel Detail",
+    url: "/images/gallery/ba-wheel-detail.jpg",
+  },
+  {
+    id: 123,
+    category: "Before & After",
+    title: "Restored Wheel On Display",
+    url: "/images/gallery/ba-restored-display.jpg",
+  },
+  {
+    id: 124,
+    category: "Before & After",
+    title: "Wheel Transformation Result",
+    url: "/images/gallery/ba-transformation-result.jpg",
+  },
+  {
+    id: 125,
+    category: "Before & After",
+    title: "Completed Repair Close-Up",
+    url: "/images/gallery/ba-completed-repair-closeup.jpg",
+  },
+  {
+    id: 126,
+    category: "Before & After",
+    title: "Wheel Set After Restoration",
+    url: "/images/gallery/ba-set-after-restoration.jpg",
+  },
+  {
+    id: 127,
+    category: "Before & After",
+    title: "Final Finish Inspection",
+    url: "/images/gallery/ba-finish-inspection.jpg",
+  },
+  {
+    id: 128,
+    category: "Before & After",
+    title: "Mercedes Wheel On Vehicle After",
+    url: "/images/gallery/ba-mercedes-on-vehicle.jpg",
+  },
+  {
+    id: 129,
+    category: "Before & After",
+    title: "Workshop Repair Showcase",
+    url: "/images/gallery/ba-workshop-showcase.jpg",
+  },
+  {
+    id: 130,
+    category: "Before & After",
+    title: "Before & After Comparison",
+    url: "/images/gallery/ba-comparison.jpg",
+  },
+  {
+    id: 131,
+    category: "Before & After",
+    title: "Alloy Wheel Refinish Complete",
+    url: "/images/gallery/ba-refinish-complete.jpg",
+  },
+  {
+    id: 132,
+    category: "Before & After",
+    title: "Wheel Repair Before State",
+    url: "/images/gallery/ba-repair-before-state.jpg",
+  },
+  {
+    id: 133,
+    category: "Before & After",
+    title: "Restored Wheel Showcase",
+    url: "/images/gallery/ba-restored-showcase.jpg",
+  },
+  {
+    id: 134,
+    category: "Before & After",
+    title: "Damage Repair Transformation",
+    url: "/images/gallery/ba-damage-transformation.jpg",
+  },
+  {
+    id: 135,
+    category: "Before & After",
+    title: "Alloy Wheel Before Treatment",
+    url: "/images/gallery/ba-alloy-before-treatment.jpg",
+  },
+  {
+    id: 136,
+    category: "Before & After",
+    title: "Wheel After Expert Repair",
+    url: "/images/gallery/ba-expert-repair.jpg",
+  },
+  {
+    id: 137,
+    category: "Before & After",
+    title: "Repaired Alloy Wheel Set",
+    url: "/images/gallery/ba-repaired-set.jpg",
+  },
+  {
+    id: 138,
+    category: "Before & After",
+    title: "Workshop Wheel Restoration",
+    url: "/images/gallery/ba-workshop-restoration.jpg",
+  },
+  {
+    id: 139,
+    category: "Before & After",
+    title: "Wheel Repair Final Result",
+    url: "/images/gallery/ba-repair-final-result.jpg",
+  },
+  {
+    id: 140,
+    category: "Before & After",
+    title: "Before & After Full Set",
+    url: "/images/gallery/ba-full-set.jpg",
+  },
+  {
+    id: 141,
+    category: "Before & After",
+    title: "Wheel Colour Change Result",
+    url: "/images/gallery/ba-colour-change-result.jpg",
+  },
+  {
+    id: 142,
+    category: "Before & After",
+    title: "Professional Wheel Repair",
+    url: "/images/gallery/ba-professional-repair.jpg",
+  },
+  {
+    id: 143,
+    category: "Before & After",
+    title: "Alloy Transformation Complete",
+    url: "/images/gallery/ba-alloy-transformation.jpg",
+  },
+  {
+    id: 144,
+    category: "Before & After",
+    title: "Final Before & After Showcase",
+    url: "/images/gallery/ba-final-showcase.jpg",
+  },
+
+  // ── Acid & Sand Blast ──
+  {
+    id: 200,
+    category: "Acid & Sand Blast",
+    title: "Rusty Steel Wheels Before Treatment",
+    url: "/images/gallery/acid-blast-rusty-wheels.jpg",
+  },
+  {
+    id: 201,
+    category: "Acid & Sand Blast",
+    title: "Wheel Emerging From Acid Bath",
+    url: "/images/gallery/acid-blast-acid-bath.jpg",
+  },
+  {
+    id: 202,
+    category: "Acid & Sand Blast",
+    title: "Sand Blasted Wheel Surface",
+    url: "/images/gallery/acid-blast-surface.jpg",
+  },
+  {
+    id: 203,
+    category: "Acid & Sand Blast",
+    title: "Acid Stripping Process",
+    url: "/images/gallery/acid-blast-stripping.jpg",
+  },
+  {
+    id: 204,
+    category: "Acid & Sand Blast",
+    title: "Wheel After Sand Blasting",
+    url: "/images/gallery/acid-blast-after.jpg",
+  },
+  {
+    id: 205,
+    category: "Acid & Sand Blast",
+    title: "Acid Bath Treatment Result",
+    url: "/images/gallery/acid-blast-treatment-result.jpg",
+  },
+  {
+    id: 206,
+    category: "Acid & Sand Blast",
+    title: "Sand Blast Preparation",
+    url: "/images/gallery/acid-blast-preparation.jpg",
+  },
+  {
+    id: 207,
+    category: "Acid & Sand Blast",
+    title: "Stripped Wheel Ready for Paint",
+    url: "/images/gallery/acid-blast-ready-for-paint.jpg",
+  },
+  {
+    id: 208,
+    category: "Acid & Sand Blast",
+    title: "Acid & Sand Blast Final Result",
+    url: "/images/gallery/acid-blast-final-result.jpg",
   },
 ];
 
@@ -265,17 +707,6 @@ const beforeAfterSets = [
     afterLabel: "Fully Restored",
   },
   {
-    id: "amg-repair",
-    category: "Damage Repair",
-    title: "Mercedes AMG Kerb Damage Repair",
-    description:
-      "Severe kerb rash and scratches on this Mercedes AMG wheel were expertly repaired and refinished to a flawless gloss black.",
-    beforeImage: "/images/before-after/damage-before-03.jpg",
-    afterImage: "/images/before-after/amg-repaired.jpg",
-    beforeLabel: "Kerb Damaged",
-    afterLabel: "Restored",
-  },
-  {
     id: "amg-turbine",
     category: "Colour Change",
     title: "AMG Turbine Wheel Colour Change",
@@ -296,6 +727,28 @@ const beforeAfterSets = [
     afterImage: "/images/before-after/mercedes-amg-after.jpg",
     beforeLabel: "Scratched & Damaged",
     afterLabel: "Factory Fresh",
+  },
+  {
+    id: "haval-colour-change-1",
+    category: "Colour Change",
+    title: "Haval Wheel Colour Change — Close-Up",
+    description:
+      "Badly peeling and worn paint stripped back to bare metal, then refinished in a stunning metallic dark grey. The spoke detail shows the quality of the new finish.",
+    beforeImage: "/images/before-after/haval-colour-before-closeup.jpg",
+    afterImage: "/images/before-after/haval-colour-after-closeup.jpg",
+    beforeLabel: "Peeling Paint",
+    afterLabel: "Metallic Dark Grey",
+  },
+  {
+    id: "haval-colour-change-2",
+    category: "Colour Change",
+    title: "Haval Wheel Colour Change — Full Wheel",
+    description:
+      "From faded, chipped paint to a flawless dark metallic finish. This Haval wheel was completely transformed with a full colour change, delivered with tyre fitted.",
+    beforeImage: "/images/before-after/haval-colour-before-full.jpg",
+    afterImage: "/images/before-after/haval-colour-after-full.jpg",
+    beforeLabel: "Worn & Chipped",
+    afterLabel: "Fully Restored",
   },
 ];
 
@@ -318,43 +771,44 @@ const workshopVideos = [
     category: "Diamond Cut",
   },
   {
-    id: "vid-3",
-    title: "Wheel Repair Process",
-    description: "From damaged to flawless — watch the full repair process",
-    url: "/images/videos/repair-process-01.mp4",
-    category: "Repair",
-  },
-  {
-    id: "vid-4",
-    title: "Cosmetic Repair Finishing",
+    id: "vid-8",
+    title: "Colour Change Final Product",
     description:
-      "Watch our technician apply the final finishing touches to a repaired wheel",
-    url: "/images/videos/repair-process-02.mp4",
-    category: "Repair",
-  },
-  {
-    id: "vid-5",
-    title: "Custom Colour Application",
-    description:
-      "Professional spray booth application of a custom gloss black finish",
-    url: "/images/videos/colour-change-01.mp4",
+      "See the stunning final result of a complete colour change — from damaged to showroom-ready",
+    url: "/images/videos/colour-change-final-01.mp4",
     category: "Custom Colour",
   },
   {
-    id: "vid-6",
-    title: "Custom Colour Transformation",
+    id: "vid-9",
+    title: "Colour Change Transformation Complete",
     description:
-      "Watch a wheel go from standard finish to a stunning custom colour",
-    url: "/images/videos/colour-change-02.mp4",
+      "The finished product of a full colour change transformation — flawless in every detail",
+    url: "/images/videos/colour-change-final-02.mp4",
     category: "Custom Colour",
   },
   {
-    id: "vid-7",
-    title: "Workshop Behind the Scenes",
+    id: "vid-10",
+    title: "Before & After Repair Process",
     description:
-      "A look inside our Sydney workshop — where precision meets craftsmanship",
-    url: "/images/videos/workshop-01.mp4",
-    category: "Workshop",
+      "Watch the full journey from damaged wheel to perfect finish in this before and after video",
+    url: "/images/videos/before-after-process-01.mp4",
+    category: "Before & After",
+  },
+  {
+    id: "vid-11",
+    title: "Before & After Transformation",
+    description:
+      "A complete before and after transformation — see the difference expert repair makes",
+    url: "/images/videos/before-after-process-02.mp4",
+    category: "Before & After",
+  },
+  {
+    id: "vid-12",
+    title: "Before & After Wheel Restoration",
+    description:
+      "From worn and damaged to pristine — watch this wheel's complete restoration journey",
+    url: "/images/videos/before-after-restoration.mp4",
+    category: "Before & After",
   },
 ];
 
@@ -364,6 +818,9 @@ const galleryCategories = [
   "Custom Colour",
   "Cosmetic",
   "CNC Machine",
+  "Workshop",
+  "Before & After",
+  "Acid & Sand Blast",
 ];
 const beforeAfterCategories = ["All", "Colour Change", "Damage Repair"];
 
@@ -373,6 +830,10 @@ export default function Gallery() {
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const [playingVideo, setPlayingVideo] = useState<string | null>(null);
+  
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(12);
 
   const filteredImages =
     selectedCategory === "All"
@@ -383,6 +844,27 @@ export default function Gallery() {
     selectedBACategory === "All"
       ? beforeAfterSets
       : beforeAfterSets.filter((set) => set.category === selectedBACategory);
+
+  // Calculate pagination
+  const totalPages = Math.ceil(filteredImages.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedImages = filteredImages.slice(startIndex, endIndex);
+
+  // Reset to page 1 when category or items per page changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedCategory, itemsPerPage]);
+
+  // Scroll to gallery section when page changes
+  useEffect(() => {
+    if (currentPage > 1) {
+      const gallerySection = document.getElementById('gallery-section');
+      if (gallerySection) {
+        gallerySection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  }, [currentPage]);
 
   const openLightbox = (imageId: number) => {
     const idx = galleryImages.findIndex((img) => img.id === imageId);
@@ -590,7 +1072,7 @@ export default function Gallery() {
         <div className="border-b border-border" />
 
         {/* ═══ FULL GALLERY SECTION ═══ */}
-        <section className="py-20 bg-muted/30">
+        <section id="gallery-section" className="py-20 bg-muted/30">
           <div className="container mx-auto px-4">
             {/* Section Header */}
             <div className="text-center max-w-2xl mx-auto mb-12">
@@ -608,7 +1090,7 @@ export default function Gallery() {
             </div>
 
             {/* Filter Tabs */}
-            <div className="flex flex-wrap justify-center gap-3 mb-12">
+            <div className="flex flex-wrap justify-center gap-3 mb-8">
               {galleryCategories.map((category) => (
                 <button
                   key={category}
@@ -624,10 +1106,108 @@ export default function Gallery() {
               ))}
             </div>
 
+            {/* Pagination Controls - Items per page */}
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6 px-2">
+              <div className="flex items-center gap-2 flex-wrap justify-center">
+                <span className="text-sm text-muted-foreground">Show:</span>
+                {[12, 16, 20].map((size) => (
+                  <button
+                    key={size}
+                    onClick={() => setItemsPerPage(size)}
+                    className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all ${
+                      itemsPerPage === size
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-muted text-muted-foreground hover:bg-muted/80"
+                    }`}
+                  >
+                    {size}
+                  </button>
+                ))}
+                <span className="text-sm text-muted-foreground">
+                  items per page
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+              {totalPages > 1 && (
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
+                    disabled={currentPage === 1}
+                    className="p-2 rounded-lg bg-muted text-muted-foreground hover:bg-muted/80 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                    aria-label="Previous page"
+                  >
+                    <ChevronLeft className="w-5 h-5" />
+                  </button>
+
+                  <div className="flex items-center gap-1">
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
+                      // Show first page, last page, current page, and pages around current
+                      const showPage =
+                        page === 1 ||
+                        page === totalPages ||
+                        (page >= currentPage - 1 && page <= currentPage + 1);
+
+                      const showEllipsisBefore = page === currentPage - 2 && currentPage > 3;
+                      const showEllipsisAfter =
+                        page === currentPage + 2 && currentPage < totalPages - 2;
+
+                      if (showEllipsisBefore || showEllipsisAfter) {
+                        return (
+                          <span
+                            key={`ellipsis-${page}`}
+                            className="px-1 sm:px-2 text-muted-foreground"
+                          >
+                            ...
+                          </span>
+                        );
+                      }
+
+                      if (!showPage) return null;
+
+                      return (
+                        <button
+                          key={page}
+                          onClick={() => setCurrentPage(page)}
+                          className={`min-w-[36px] sm:min-w-[40px] px-3 sm:px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                            currentPage === page
+                              ? "bg-primary text-primary-foreground shadow-md"
+                              : "bg-muted text-muted-foreground hover:bg-muted/80"
+                          }`}
+                        >
+                          {page}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  <button
+                    onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
+                    disabled={currentPage === totalPages}
+                    className="p-2 rounded-lg bg-muted text-muted-foreground hover:bg-muted/80 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                    aria-label="Next page"
+                  >
+                    <ChevronRight className="w-5 h-5" />
+                  </button>
+                </div>
+                
+                {/* Page indicator for mobile */}
+                <div className="sm:hidden text-sm text-muted-foreground">
+                  Page {currentPage} of {totalPages}
+                </div>
+              </div>
+            )}
+
+              </div>
+              <div className="text-sm text-muted-foreground">
+                Showing {startIndex + 1}-{Math.min(endIndex, filteredImages.length)} of {filteredImages.length} images
+              </div>
+            </div>
+
             {/* Gallery Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-              <AnimatePresence>
-                {filteredImages.map((image, index) => (
+              <AnimatePresence mode="wait">
+                {paginatedImages.map((image, index) => (
                   <motion.div
                     key={image.id}
                     initial={{ opacity: 0, scale: 0.95 }}
@@ -658,6 +1238,105 @@ export default function Gallery() {
                 ))}
               </AnimatePresence>
             </div>
+
+            {/* Pagination Controls - Items per page */}
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6 px-2 mt-12">
+              <div className="flex items-center gap-2 flex-wrap justify-center">
+                <span className="text-sm text-muted-foreground">Show:</span>
+                {[12, 16, 20].map((size) => (
+                  <button
+                    key={size}
+                    onClick={() => setItemsPerPage(size)}
+                    className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all ${
+                      itemsPerPage === size
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-muted text-muted-foreground hover:bg-muted/80"
+                    }`}
+                  >
+                    {size}
+                  </button>
+                ))}
+                <span className="text-sm text-muted-foreground">
+                  items per page
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+              {totalPages > 1 && (
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
+                    disabled={currentPage === 1}
+                    className="p-2 rounded-lg bg-muted text-muted-foreground hover:bg-muted/80 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                    aria-label="Previous page"
+                  >
+                    <ChevronLeft className="w-5 h-5" />
+                  </button>
+
+                  <div className="flex items-center gap-1">
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
+                      // Show first page, last page, current page, and pages around current
+                      const showPage =
+                        page === 1 ||
+                        page === totalPages ||
+                        (page >= currentPage - 1 && page <= currentPage + 1);
+
+                      const showEllipsisBefore = page === currentPage - 2 && currentPage > 3;
+                      const showEllipsisAfter =
+                        page === currentPage + 2 && currentPage < totalPages - 2;
+
+                      if (showEllipsisBefore || showEllipsisAfter) {
+                        return (
+                          <span
+                            key={`ellipsis-${page}`}
+                            className="px-1 sm:px-2 text-muted-foreground"
+                          >
+                            ...
+                          </span>
+                        );
+                      }
+
+                      if (!showPage) return null;
+
+                      return (
+                        <button
+                          key={page}
+                          onClick={() => setCurrentPage(page)}
+                          className={`min-w-[36px] sm:min-w-[40px] px-3 sm:px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                            currentPage === page
+                              ? "bg-primary text-primary-foreground shadow-md"
+                              : "bg-muted text-muted-foreground hover:bg-muted/80"
+                          }`}
+                        >
+                          {page}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  <button
+                    onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
+                    disabled={currentPage === totalPages}
+                    className="p-2 rounded-lg bg-muted text-muted-foreground hover:bg-muted/80 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                    aria-label="Next page"
+                  >
+                    <ChevronRight className="w-5 h-5" />
+                  </button>
+                </div>
+                
+                {/* Page indicator for mobile */}
+                <div className="sm:hidden text-sm text-muted-foreground">
+                  Page {currentPage} of {totalPages}
+                </div>
+              </div>
+            )}
+
+              </div>
+              <div className="text-sm text-muted-foreground">
+                Showing {startIndex + 1}-{Math.min(endIndex, filteredImages.length)} of {filteredImages.length} images
+              </div>
+            </div>
+
 
             {/* Gallery CTA */}
             <div className="text-center mt-16">
