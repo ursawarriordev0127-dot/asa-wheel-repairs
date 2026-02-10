@@ -195,6 +195,38 @@ const galleryImages = [
     title: "CNC Wheel Preparation",
     url: "/images/gallery/cnc-wheel-setup.jpg",
   },
+
+  // ── Previous gallery images ──
+  {
+    id: 31,
+    category: "Diamond Cut",
+    title: "Two-Tone Diamond Cut Alloy",
+    url: "/images/gallery/wheel-09.jpg",
+  },
+  {
+    id: 32,
+    category: "Cosmetic",
+    title: "Gloss Black Barrel Finish",
+    url: "/images/gallery/wheel-10.jpg",
+  },
+  {
+    id: 33,
+    category: "Diamond Cut",
+    title: "Diamond Cut Close-Up Detail",
+    url: "/images/gallery/wheel-11.jpg",
+  },
+  {
+    id: 34,
+    category: "CNC Machine",
+    title: "CNC Diamond Cut Machine",
+    url: "/images/gallery/wheel-12.jpg",
+  },
+  {
+    id: 35,
+    category: "Diamond Cut",
+    title: "Multi-Spoke Diamond Cut Wheel",
+    url: "/images/gallery/wheel-13.jpg",
+  },
 ];
 
 // ─── Before & After Transformations ───────────────────────────────────────────
@@ -294,11 +326,35 @@ const workshopVideos = [
   },
   {
     id: "vid-4",
+    title: "Cosmetic Repair Finishing",
+    description:
+      "Watch our technician apply the final finishing touches to a repaired wheel",
+    url: "/images/videos/repair-process-02.mp4",
+    category: "Repair",
+  },
+  {
+    id: "vid-5",
     title: "Custom Colour Application",
     description:
       "Professional spray booth application of a custom gloss black finish",
     url: "/images/videos/colour-change-01.mp4",
     category: "Custom Colour",
+  },
+  {
+    id: "vid-6",
+    title: "Custom Colour Transformation",
+    description:
+      "Watch a wheel go from standard finish to a stunning custom colour",
+    url: "/images/videos/colour-change-02.mp4",
+    category: "Custom Colour",
+  },
+  {
+    id: "vid-7",
+    title: "Workshop Behind the Scenes",
+    description:
+      "A look inside our Sydney workshop — where precision meets craftsmanship",
+    url: "/images/videos/workshop-01.mp4",
+    category: "Workshop",
   },
 ];
 
