@@ -78,6 +78,14 @@ export default function Contact() {
     }
   }, [handleFiles]);
 
+  const resetForm = () => {
+    setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
+    setSelectedFiles((prev) => {
+      prev.forEach((fp) => URL.revokeObjectURL(fp.preview));
+      return [];
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -85,64 +93,103 @@ export default function Contact() {
     setSubmitMessage("");
 
     try {
-      const data = new FormData();
-      data.append("name", formData.name);
-      data.append("email", formData.email);
-      data.append("phone", formData.phone || "Not provided");
-      data.append("subject", formData.subject || "Free Quote Request");
-      data.append("message", formData.message);
-      data.append("_subject", `Free Quote Request from ${formData.name}`);
-      data.append("_template", "table");
+      // Build the message with photo info if no files attached
+      const hasFiles = selectedFiles.length > 0;
+      let messageBody = formData.message;
+      if (hasFiles) {
+        messageBody += `\n\n--- ${selectedFiles.length} photo(s) attached ---`;
+      }
 
-      // Attach files
-      selectedFiles.forEach((fp, i) => {
-        data.append(i === 0 ? "attachment" : `attachment${i + 1}`, fp.file);
-      });
-
-      const response = await fetch("https://formsubmit.co/ajax/info@asawheelrepairs.com.au", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-        },
-        body: data,
-      });
-
-      if (response.ok) {
-        setSubmitStatus("success");
-        setSubmitMessage("Thank you for your enquiry! We'll review your details and get back to you with a quote shortly.");
-        setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
-        setSelectedFiles((prev) => {
-          prev.forEach((fp) => URL.revokeObjectURL(fp.preview));
-          return [];
+      // Try AJAX with JSON first (most reliable for text-only submissions)
+      if (!hasFiles) {
+        const response = await fetch("https://formsubmit.co/ajax/info@asawheelrepairs.com.au", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone || "Not provided",
+            subject: formData.subject || "Free Quote Request",
+            message: messageBody,
+            _subject: `Free Quote Request from ${formData.name}`,
+            _replyto: formData.email,
+            _template: "table",
+            _captcha: "false",
+          }),
         });
+
+        const result = await response.json();
+
+        if (response.ok && result.success) {
+          setSubmitStatus("success");
+          setSubmitMessage("Thank you for your enquiry! We'll review your details and get back to you with a quote shortly.");
+          resetForm();
+        } else {
+          throw new Error(result.message || "Form submission failed");
+        }
       } else {
-        throw new Error("Form submission failed");
+        // Use FormData for file attachments
+        const data = new FormData();
+        data.append("name", formData.name);
+        data.append("email", formData.email);
+        data.append("phone", formData.phone || "Not provided");
+        data.append("subject", formData.subject || "Free Quote Request");
+        data.append("message", messageBody);
+        data.append("_subject", `Free Quote Request from ${formData.name}`);
+        data.append("_replyto", formData.email);
+        data.append("_template", "table");
+        data.append("_captcha", "false");
+
+        // Attach the first file (formsubmit.co supports one attachment)
+        if (selectedFiles.length > 0) {
+          data.append("attachment", selectedFiles[0].file);
+        }
+
+        const response = await fetch("https://formsubmit.co/ajax/info@asawheelrepairs.com.au", {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+          },
+          body: data,
+        });
+
+        const result = await response.json();
+
+        if (response.ok && result.success) {
+          const extraNote = selectedFiles.length > 1
+            ? " Note: Only the first photo was attached. For additional photos, please reply to the confirmation email or send them via WhatsApp."
+            : "";
+          setSubmitStatus("success");
+          setSubmitMessage(`Thank you for your enquiry! We'll review your details and get back to you with a quote shortly.${extraNote}`);
+          resetForm();
+        } else {
+          throw new Error(result.message || "Form submission failed");
+        }
       }
 
       setTimeout(() => {
         setSubmitStatus(null);
         setSubmitMessage("");
-      }, 8000);
+      }, 10000);
     } catch (error) {
       console.error("Error sending form:", error);
 
       // Fallback: open mailto link
-      const emailBody = `Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone || "Not provided"}\nSubject: ${formData.subject || "Free Quote Request"}\n\nMessage:\n${formData.message}\n\n(${selectedFiles.length} photo(s) were selected but could not be attached. Please reply to this email to receive them.)`;
+      const emailBody = `Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone || "Not provided"}\nSubject: ${formData.subject || "Free Quote Request"}\n\nMessage:\n${formData.message}${selectedFiles.length > 0 ? `\n\n(${selectedFiles.length} photo(s) were selected — please reply to this email to arrange sending them, or send via WhatsApp to 0450 693 539.)` : ""}`;
       const mailtoLink = `mailto:info@asawheelrepairs.com.au?subject=${encodeURIComponent(`Free Quote Request from ${formData.name}`)}&body=${encodeURIComponent(emailBody)}`;
       window.location.href = mailtoLink;
 
       setSubmitStatus("success");
-      setSubmitMessage("Opening your email client... If it doesn't open, please email us directly at info@asawheelrepairs.com.au");
-      setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
-      setSelectedFiles((prev) => {
-        prev.forEach((fp) => URL.revokeObjectURL(fp.preview));
-        return [];
-      });
+      setSubmitMessage("Opening your email client as a backup... If it doesn't open, please email us directly at info@asawheelrepairs.com.au or WhatsApp us at 0450 693 539.");
+      resetForm();
 
       setTimeout(() => {
         setSubmitStatus(null);
         setSubmitMessage("");
-      }, 8000);
+      }, 10000);
     } finally {
       setIsSubmitting(false);
     }

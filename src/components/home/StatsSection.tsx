@@ -5,7 +5,7 @@ import { useRef } from "react";
 const stats = [
   { value: "12+", label: "Years Experience", suffix: "" },
   { value: "100", label: "Satisfied Clients", suffix: "%" },
-  { value: "24", label: "Hour Turnaround", suffix: "hr" },
+  { value: "24-48", label: "Hour Turnaround", suffix: "hrs" },
 ];
 
 export function StatsSection() {
