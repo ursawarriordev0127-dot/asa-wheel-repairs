@@ -28,69 +28,46 @@ export default function Contact() {
     setSubmitMessage("");
 
     try {
-      // EmailJS Configuration
-      // To set up EmailJS:
-      // 1. Go to https://www.emailjs.com/ and create a free account
-      // 2. Add an Email Service (Gmail, Outlook, etc.)
-      // 3. Create an Email Template with variables: {{from_name}}, {{from_email}}, {{phone}}, {{message}}
-      // 4. Set the template to send to: info@asawheelrepairs.com.au
-      // 5. Get your Public Key from Account > API Keys
-      // 6. Create a .env file in the root directory with:
-      //    VITE_EMAILJS_SERVICE_ID=your_service_id
-      //    VITE_EMAILJS_TEMPLATE_ID=your_template_id
-      //    VITE_EMAILJS_PUBLIC_KEY=your_public_key
-      
-      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
-
-      if (serviceId && templateId && publicKey) {
-        // Use EmailJS
-        const { default: emailjs } = await import("@emailjs/browser");
-        
-        const templateParams = {
-          to_email: "info@asawheelrepairs.com.au",
-          from_name: formData.name,
-          from_email: formData.email,
+      const response = await fetch("https://formsubmit.co/ajax/info@asawheelrepairs.com.au", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
           phone: formData.phone || "Not provided",
           message: formData.message,
-          reply_to: formData.email,
-          subject: `New Contact Form Submission from ${formData.name}`,
-        };
+          _subject: `New Contact Form Submission from ${formData.name}`,
+          _template: "table",
+        }),
+      });
 
-        await emailjs.send(serviceId, templateId, templateParams, publicKey);
-        
+      if (response.ok) {
         setSubmitStatus("success");
         setSubmitMessage("Thank you for your message! We'll get back to you soon.");
         setFormData({ name: "", email: "", phone: "", message: "" });
       } else {
-        // Fallback: Use mailto link if EmailJS not configured
-        const emailBody = `Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone || "Not provided"}\n\nMessage:\n${formData.message}`;
-        const mailtoLink = `mailto:info@asawheelrepairs.com.au?subject=Contact Form Submission from ${encodeURIComponent(formData.name)}&body=${encodeURIComponent(emailBody)}`;
-        window.location.href = mailtoLink;
-        
-        setSubmitStatus("success");
-        setSubmitMessage("Opening your email client... If it doesn't open, please email us directly at info@asawheelrepairs.com.au");
-        setFormData({ name: "", email: "", phone: "", message: "" });
+        throw new Error("Form submission failed");
       }
-      
-      // Clear success message after 5 seconds
+
       setTimeout(() => {
         setSubmitStatus(null);
         setSubmitMessage("");
       }, 5000);
     } catch (error) {
-      console.error("Error sending email:", error);
-      
-      // Fallback on error: Use mailto link
+      console.error("Error sending form:", error);
+
+      // Fallback: open mailto link
       const emailBody = `Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone || "Not provided"}\n\nMessage:\n${formData.message}`;
       const mailtoLink = `mailto:info@asawheelrepairs.com.au?subject=Contact Form Submission from ${encodeURIComponent(formData.name)}&body=${encodeURIComponent(emailBody)}`;
       window.location.href = mailtoLink;
-      
+
       setSubmitStatus("success");
       setSubmitMessage("Opening your email client... If it doesn't open, please email us directly at info@asawheelrepairs.com.au");
       setFormData({ name: "", email: "", phone: "", message: "" });
-      
+
       setTimeout(() => {
         setSubmitStatus(null);
         setSubmitMessage("");
