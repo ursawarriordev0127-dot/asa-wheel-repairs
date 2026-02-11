@@ -32,7 +32,7 @@ export function HeroSection() {
       <div className="absolute top-1/4 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
       <div className="absolute bottom-1/4 left-0 w-64 h-64 bg-primary/5 rounded-full blur-2xl" />
 
-      <div className="container mx-auto px-4 py-32 relative z-10">
+      <div className="container mx-auto px-4 pt-44 pb-32 md:py-32 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Text Content */}
           <motion.div
@@ -50,7 +50,7 @@ export function HeroSection() {
             >
               <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
               <span className="text-primary text-sm font-medium">
-                Sydney's #1 CNC Wheel Specialists
+                Sydney’s Wheel Repair Specialist
               </span>
             </motion.div>
 
