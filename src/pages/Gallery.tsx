@@ -1031,6 +1031,7 @@ export default function Gallery() {
                         className="w-full h-full object-cover"
                         controls
                         autoPlay
+                        muted
                         playsInline
                         onEnded={() => setPlayingVideo(null)}
                       />
@@ -1229,9 +1230,6 @@ export default function Gallery() {
                         <span className="text-primary text-xs font-medium uppercase tracking-wider">
                           {image.category}
                         </span>
-                        <p className="text-white font-semibold text-sm mt-1">
-                          {image.title}
-                        </p>
                       </div>
                     </div>
                   </motion.div>
@@ -1416,9 +1414,6 @@ export default function Gallery() {
                       <span className="text-primary text-xs font-medium uppercase tracking-wider">
                         {galleryImages[lightboxIndex]?.category}
                       </span>
-                      <p className="text-lg font-semibold text-foreground mt-1">
-                        {galleryImages[lightboxIndex]?.title}
-                      </p>
                     </div>
                     <span className="text-muted-foreground text-sm">
                       {lightboxIndex + 1} / {galleryImages.length}

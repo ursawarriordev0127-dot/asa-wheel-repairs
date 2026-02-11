@@ -1,5 +1,5 @@
 import { Layout } from "@/components/layout/Layout";
-import { Sparkles, Wrench, Palette, CircleDot, Check } from "lucide-react";
+import { Sparkles, Wrench, Palette, Check, Target, ShieldAlert, RotateCcw } from "lucide-react";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useEffect } from "react";
@@ -10,6 +10,7 @@ const services = [
     id: "diamond-cut",
     icon: Sparkles,
     title: "Diamond Cut CNC",
+    image: "https://static.wixstatic.com/media/81236c_2eefd8d8740b4a8db1557e9fd9435679~mv2.jpg/v1/fill/w_360,h_360,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/lenco-mag-machine.jpg",
     description:
       "Precision CNC machining restores your wheels to factory-perfect finish. Using the latest technology for flawless diamond-cut repairs.",
     features: [
@@ -26,6 +27,7 @@ const services = [
     id: "cosmetic",
     icon: Wrench,
     title: "Cosmetic Repairs",
+    image: "https://static.wixstatic.com/media/575d66_8e4314d251114af3a8f821b0975e4c9c~mv2.jpeg/v1/fill/w_360,h_360,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/mclaren_forged3.jpeg",
     description:
       "Expert repair of kerb damage, scratches, scuffs, and chips. We restore your wheels' appearance without the cost of replacement.",
     features: [
@@ -42,6 +44,7 @@ const services = [
     id: "custom-colour",
     icon: Palette,
     title: "Custom Colour",
+    image: "https://static.wixstatic.com/media/81236c_33e0cdc1fc474cbdada63c494584fa6a~mv2.png/v1/fill/w_360,h_360,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Coloured%20Alloy%201.png",
     description:
       "Transform your wheels with our professional custom colour service. Choose from a wide range of colours and finishes.",
     features: [
@@ -53,7 +56,58 @@ const services = [
     ],
     details:
       "Give your vehicle a unique look with our custom colour service. We offer a comprehensive range of colours and finishes including gloss, matte, and satin options. Our professional powder coating and painting services ensure a durable, long-lasting finish that will make your wheels stand out.",
-  }
+  },
+  {
+    id: "buckle-repair",
+    icon: Target,
+    title: "Buckle Wheel Repair",
+    image: "/Buckle1.jpg",
+    description:
+      "Professional repair of buckled and bent wheels. We straighten and restore your wheels to their original shape using precision equipment.",
+    features: [
+      "Wheel straightening",
+      "Structural integrity check",
+      "Precision balancing",
+      "All alloy types supported",
+      "Safety tested",
+    ],
+    details:
+      "Buckled wheels can cause vibrations, uneven tyre wear, and handling issues. Our expert technicians use hydraulic presses and precision equipment to carefully straighten buckled alloy wheels, restoring them to their original shape while maintaining structural integrity. Every repaired wheel is balanced and safety checked before delivery.",
+  },
+  {
+    id: "cracked-repair",
+    icon: ShieldAlert,
+    title: "Cracked Wheel Repair",
+    image: "/Crack 2.jpg",
+    description:
+      "Expert welding and repair of cracked alloy wheels. We restore structural integrity and strength to damaged wheels.",
+    features: [
+      "TIG welding repair",
+      "Crack detection & assessment",
+      "Structural reinforcement",
+      "Pressure tested",
+      "Professional quality guarantee",
+    ],
+    details:
+      "Cracked wheels are a serious safety concern. Our skilled technicians use professional TIG welding and specialist repair techniques to fix cracked alloy wheels. Each repair undergoes rigorous testing to ensure the wheel meets safety standards before being returned to service.",
+  },
+  {
+    id: "wheel-restoration",
+    icon: RotateCcw,
+    title: "Wheel Restoration (Powder Coating)",
+    image: "/Wheel Restoration 1.jpg",
+    description:
+      "Complete wheel restoration through our professional powder coating process: Acid Strip → Sand Blasted → Powder Coated for a durable, factory-quality finish.",
+    features: [
+      "Acid stripping",
+      "Sand blasting preparation",
+      "Professional powder coating",
+      "Durable long-lasting finish",
+      "Full restoration process",
+    ],
+    details:
+      "Our comprehensive wheel restoration process involves three key stages: First, wheels are acid stripped to remove all old paint, lacquer, and corrosion down to bare metal. Next, they are sand blasted to create a perfectly clean surface for optimal adhesion. Finally, a professional powder coat is applied and oven-cured for an incredibly durable, long-lasting finish that far outperforms traditional paint.",
+  },
 ];
 
 export default function Services() {
@@ -141,20 +195,40 @@ export default function Services() {
                         </ul>
                       </div>
 
-                      {/* Right Side - Service Image */}
-                      <div className="relative rounded-xl aspect-square overflow-hidden bg-muted">
-                        <img
-                          src={
-                            service.id === "diamond-cut"
-                              ? "https://static.wixstatic.com/media/81236c_2eefd8d8740b4a8db1557e9fd9435679~mv2.jpg/v1/fill/w_360,h_360,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/lenco-mag-machine.jpg"
-                              : service.id === "cosmetic"
-                              ? "https://static.wixstatic.com/media/575d66_8e4314d251114af3a8f821b0975e4c9c~mv2.jpeg/v1/fill/w_360,h_360,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/mclaren_forged3.jpeg"
-                              : "https://static.wixstatic.com/media/81236c_33e0cdc1fc474cbdada63c494584fa6a~mv2.png/v1/fill/w_360,h_360,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Coloured%20Alloy%201.png"
-                          }
-                          alt={service.title}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
+                      {/* Right Side - Service Image(s) */}
+                      {service.id === "wheel-restoration" ? (
+                        <div className="space-y-4">
+                          <div className="relative rounded-xl aspect-video overflow-hidden bg-muted">
+                            <img
+                              src={service.image}
+                              alt={service.title}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div className="relative rounded-xl aspect-video overflow-hidden bg-muted">
+                            <img
+                              src="/Wheel Restoration 2.jpg"
+                              alt="Wheel Restoration — Powder Coated Result"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div className="flex items-center justify-center gap-3 text-sm font-medium text-primary pt-2">
+                            <span className="bg-primary/10 px-3 py-1.5 rounded-full">Acid Strip</span>
+                            <span className="text-muted-foreground">→</span>
+                            <span className="bg-primary/10 px-3 py-1.5 rounded-full">Sand Blasted</span>
+                            <span className="text-muted-foreground">→</span>
+                            <span className="bg-primary/10 px-3 py-1.5 rounded-full">Powder Coated</span>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="relative rounded-xl aspect-square overflow-hidden bg-muted">
+                          <img
+                            src={service.image}
+                            alt={service.title}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      )}
                     </div>
                   </motion.div>
                 );

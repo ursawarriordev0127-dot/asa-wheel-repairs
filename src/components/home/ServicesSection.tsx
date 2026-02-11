@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Sparkles, Wrench, Palette, CircleDot } from "lucide-react";
+import { ArrowRight, Sparkles, Wrench, Palette, CircleDot, Target, ShieldAlert, RotateCcw } from "lucide-react";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
@@ -37,6 +37,30 @@ const services = [
       "Complete tyre services including supply, fitting, and balancing. We work with all major tyre brands.",
     features: ["All major brands", "Professional fitting", "Wheel balancing"],
   },
+  {
+    id: "buckle-repair",
+    icon: Target,
+    title: "Buckle Wheel Repair",
+    description:
+      "Professional repair of buckled and bent wheels. We straighten and restore your wheels to their original shape.",
+    features: ["Wheel straightening", "Structural check", "Precision balancing"],
+  },
+  {
+    id: "cracked-repair",
+    icon: ShieldAlert,
+    title: "Cracked Wheel Repair",
+    description:
+      "Expert welding and repair of cracked alloy wheels. We restore structural integrity and strength to damaged wheels.",
+    features: ["TIG welding repair", "Crack detection", "Safety certified"],
+  },
+  {
+    id: "wheel-restoration",
+    icon: RotateCcw,
+    title: "Wheel Restoration",
+    description:
+      "Complete wheel restoration via powder coating: Acid Strip → Sand Blasted → Powder Coated for a durable factory-quality finish.",
+    features: ["Acid stripping", "Sand blasting", "Powder coating"],
+  },
 ];
 
 export function ServicesSection() {
@@ -66,7 +90,7 @@ export function ServicesSection() {
         </motion.div>
 
         {/* Services Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {services.map((service, index) => (
             <motion.div
               key={service.id}

@@ -84,7 +84,7 @@ export function TrustedPartnersSection() {
       >
         <div className="flex flex-wrap justify-center items-center gap-6 md:gap-12 text-muted-foreground">
           <div className="text-center">
-            <p className="font-display font-semibold text-foreground">Mercedes-Benz Sydney</p>
+            <p className="font-display font-semibold text-foreground">Mercedes-Benz</p>
             <p className="text-xs text-muted-foreground">Authorized Partner</p>
           </div>
           <div className="hidden md:block w-px h-8 bg-border" />

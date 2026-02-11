@@ -5,7 +5,9 @@ const services = [
   { name: "Diamond Cut Repairs", href: "/services#diamond-cut" },
   { name: "Cosmetic Repairs", href: "/services#cosmetic" },
   { name: "Custom Colour", href: "/services#custom-colour" },
-  { name: "Tyre Service", href: "/services#tyre-service" },
+  { name: "Buckle Wheel Repair", href: "/services#buckle-repair" },
+  { name: "Cracked Wheel Repair", href: "/services#cracked-repair" },
+  { name: "Wheel Restoration", href: "/services#wheel-restoration" },
 ];
 
 const quickLinks = [
