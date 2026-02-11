@@ -1,25 +1,82 @@
 import { Layout } from "@/components/layout/Layout";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef, useState } from "react";
-import { Phone, Mail, MapPin, Clock, MessageCircle, Send, CheckCircle, AlertCircle } from "lucide-react";
+import { useRef, useState, useCallback } from "react";
+import { Phone, Mail, MapPin, Clock, MessageCircle, Send, CheckCircle, AlertCircle, Upload, X, ImageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+
+interface FilePreview {
+  file: File;
+  preview: string;
+}
 
 export default function Contact() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
+    subject: "",
     message: "",
   });
+  const [selectedFiles, setSelectedFiles] = useState<FilePreview[]>([]);
+  const [isDragging, setIsDragging] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<"success" | "error" | null>(null);
   const [submitMessage, setSubmitMessage] = useState("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+  const MAX_FILES = 5;
+  const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB per file
+
+  const handleFiles = useCallback((files: FileList | File[]) => {
+    const newFiles: FilePreview[] = [];
+    const fileArray = Array.from(files);
+
+    for (const file of fileArray) {
+      if (!file.type.startsWith("image/")) continue;
+      if (file.size > MAX_FILE_SIZE) continue;
+      if (selectedFiles.length + newFiles.length >= MAX_FILES) break;
+
+      newFiles.push({
+        file,
+        preview: URL.createObjectURL(file),
+      });
+    }
+
+    setSelectedFiles((prev) => [...prev, ...newFiles].slice(0, MAX_FILES));
+  }, [selectedFiles.length]);
+
+  const removeFile = useCallback((index: number) => {
+    setSelectedFiles((prev) => {
+      const updated = [...prev];
+      URL.revokeObjectURL(updated[index].preview);
+      updated.splice(index, 1);
+      return updated;
+    });
+  }, []);
+
+  const handleDragOver = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+  }, []);
+
+  const handleDragLeave = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+  }, []);
+
+  const handleDrop = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+    if (e.dataTransfer.files) {
+      handleFiles(e.dataTransfer.files);
+    }
+  }, [handleFiles]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,26 +85,36 @@ export default function Contact() {
     setSubmitMessage("");
 
     try {
+      const data = new FormData();
+      data.append("name", formData.name);
+      data.append("email", formData.email);
+      data.append("phone", formData.phone || "Not provided");
+      data.append("subject", formData.subject || "Free Quote Request");
+      data.append("message", formData.message);
+      data.append("_subject", `Free Quote Request from ${formData.name}`);
+      data.append("_template", "table");
+
+      // Attach files
+      selectedFiles.forEach((fp, i) => {
+        data.append(i === 0 ? "attachment" : `attachment${i + 1}`, fp.file);
+      });
+
       const response = await fetch("https://formsubmit.co/ajax/info@asawheelrepairs.com.au", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
           Accept: "application/json",
         },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          phone: formData.phone || "Not provided",
-          message: formData.message,
-          _subject: `New Contact Form Submission from ${formData.name}`,
-          _template: "table",
-        }),
+        body: data,
       });
 
       if (response.ok) {
         setSubmitStatus("success");
-        setSubmitMessage("Thank you for your message! We'll get back to you soon.");
-        setFormData({ name: "", email: "", phone: "", message: "" });
+        setSubmitMessage("Thank you for your enquiry! We'll review your details and get back to you with a quote shortly.");
+        setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
+        setSelectedFiles((prev) => {
+          prev.forEach((fp) => URL.revokeObjectURL(fp.preview));
+          return [];
+        });
       } else {
         throw new Error("Form submission failed");
       }
@@ -55,23 +122,27 @@ export default function Contact() {
       setTimeout(() => {
         setSubmitStatus(null);
         setSubmitMessage("");
-      }, 5000);
+      }, 8000);
     } catch (error) {
       console.error("Error sending form:", error);
 
       // Fallback: open mailto link
-      const emailBody = `Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone || "Not provided"}\n\nMessage:\n${formData.message}`;
-      const mailtoLink = `mailto:info@asawheelrepairs.com.au?subject=Contact Form Submission from ${encodeURIComponent(formData.name)}&body=${encodeURIComponent(emailBody)}`;
+      const emailBody = `Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone || "Not provided"}\nSubject: ${formData.subject || "Free Quote Request"}\n\nMessage:\n${formData.message}\n\n(${selectedFiles.length} photo(s) were selected but could not be attached. Please reply to this email to receive them.)`;
+      const mailtoLink = `mailto:info@asawheelrepairs.com.au?subject=${encodeURIComponent(`Free Quote Request from ${formData.name}`)}&body=${encodeURIComponent(emailBody)}`;
       window.location.href = mailtoLink;
 
       setSubmitStatus("success");
       setSubmitMessage("Opening your email client... If it doesn't open, please email us directly at info@asawheelrepairs.com.au");
-      setFormData({ name: "", email: "", phone: "", message: "" });
+      setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
+      setSelectedFiles((prev) => {
+        prev.forEach((fp) => URL.revokeObjectURL(fp.preview));
+        return [];
+      });
 
       setTimeout(() => {
         setSubmitStatus(null);
         setSubmitMessage("");
-      }, 5000);
+      }, 8000);
     } finally {
       setIsSubmitting(false);
     }
@@ -99,10 +170,10 @@ export default function Contact() {
               className="text-center max-w-3xl mx-auto"
             >
               <h1 className="text-4xl md:text-5xl font-display font-bold text-secondary-foreground mb-4">
-                Contact Us
+                Get a Free Quote
               </h1>
               <p className="text-lg text-muted-foreground">
-                Get in touch with us for all your wheel repair needs. Our friendly team look forward to hearing from you.
+                Send us photos of your wheels and we'll provide a detailed quote. Our friendly team look forward to hearing from you.
               </p>
             </motion.div>
           </div>
@@ -118,10 +189,13 @@ export default function Contact() {
                 animate={isInView ? { opacity: 1, x: 0 } : {}}
                 transition={{ duration: 0.5 }}
               >
-                <h2 className="text-2xl font-display font-bold text-foreground mb-6">
-                  Send Us a Message
+                <h2 className="text-2xl font-display font-bold text-foreground mb-2">
+                  Contact Us
                 </h2>
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <p className="text-muted-foreground mb-6">
+                  For all your wheel repair needs. Upload photos for an accurate quote.
+                </p>
+                <form onSubmit={handleSubmit} className="space-y-5">
                   <div>
                     <Label htmlFor="name">Name *</Label>
                     <Input
@@ -161,6 +235,18 @@ export default function Contact() {
                     />
                   </div>
                   <div>
+                    <Label htmlFor="subject">Subject</Label>
+                    <Input
+                      id="subject"
+                      name="subject"
+                      type="text"
+                      value={formData.subject}
+                      onChange={handleChange}
+                      placeholder="e.g. Diamond Cut Repair Quote"
+                      className="mt-2"
+                    />
+                  </div>
+                  <div>
                     <Label htmlFor="message">Message *</Label>
                     <Textarea
                       id="message"
@@ -169,10 +255,97 @@ export default function Contact() {
                       value={formData.message}
                       onChange={handleChange}
                       placeholder="Tell us about your wheel repair needs..."
-                      rows={6}
+                      rows={5}
                       className="mt-2"
                     />
                   </div>
+
+                  {/* Photo Upload */}
+                  <div>
+                    <Label>Upload Photos</Label>
+                    <p className="text-xs text-muted-foreground mt-1 mb-2">
+                      Upload up to {MAX_FILES} photos of your wheels for an accurate quote (max 5MB each)
+                    </p>
+                    <div
+                      onDragOver={handleDragOver}
+                      onDragLeave={handleDragLeave}
+                      onDrop={handleDrop}
+                      onClick={() => fileInputRef.current?.click()}
+                      className={`relative border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors ${
+                        isDragging
+                          ? "border-primary bg-primary/5"
+                          : "border-border hover:border-primary/50 hover:bg-muted/50"
+                      }`}
+                    >
+                      <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept="image/*"
+                        multiple
+                        onChange={(e) => {
+                          if (e.target.files) handleFiles(e.target.files);
+                          e.target.value = "";
+                        }}
+                        className="hidden"
+                      />
+                      <div className="flex flex-col items-center gap-2">
+                        <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                          <Upload className="w-6 h-6 text-primary" />
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium text-foreground">
+                            {isDragging ? "Drop photos here" : "Click or drag photos here"}
+                          </p>
+                          <p className="text-xs text-muted-foreground mt-1">
+                            PNG, JPG, JPEG up to 5MB
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* File Previews */}
+                    {selectedFiles.length > 0 && (
+                      <div className="grid grid-cols-3 sm:grid-cols-4 gap-3 mt-3">
+                        {selectedFiles.map((fp, index) => (
+                          <div
+                            key={`${fp.file.name}-${index}`}
+                            className="relative group rounded-lg overflow-hidden border border-border aspect-square bg-muted"
+                          >
+                            <img
+                              src={fp.preview}
+                              alt={`Upload ${index + 1}`}
+                              className="w-full h-full object-cover"
+                            />
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                removeFile(index);
+                              }}
+                              className="absolute top-1 right-1 w-6 h-6 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-sm"
+                              aria-label={`Remove photo ${index + 1}`}
+                            >
+                              <X className="w-3.5 h-3.5" />
+                            </button>
+                            <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white text-[10px] px-1.5 py-0.5 truncate">
+                              {fp.file.name}
+                            </div>
+                          </div>
+                        ))}
+                        {selectedFiles.length < MAX_FILES && (
+                          <button
+                            type="button"
+                            onClick={() => fileInputRef.current?.click()}
+                            className="rounded-lg border-2 border-dashed border-border hover:border-primary/50 aspect-square flex flex-col items-center justify-center gap-1 text-muted-foreground hover:text-primary transition-colors"
+                          >
+                            <ImageIcon className="w-5 h-5" />
+                            <span className="text-[10px]">Add more</span>
+                          </button>
+                        )}
+                      </div>
+                    )}
+                  </div>
+
                   <Button
                     type="submit"
                     size="lg"
@@ -184,7 +357,7 @@ export default function Contact() {
                     ) : (
                       <>
                         <Send className="w-4 h-4" />
-                        Send Message
+                        Submit Quote Request
                       </>
                     )}
                   </Button>
@@ -301,6 +474,9 @@ export default function Contact() {
                       <MessageCircle className="w-5 h-5" />
                       Chat on WhatsApp
                     </a>
+                    <p className="text-sm text-muted-foreground mt-3">
+                      Send us a message or photos via WhatsApp for a quick response.
+                    </p>
                   </div>
                 </div>
               </motion.div>
@@ -311,4 +487,3 @@ export default function Contact() {
     </Layout>
   );
 }
-

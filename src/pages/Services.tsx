@@ -3,7 +3,7 @@ import { Sparkles, Wrench, Palette, Check, Target, ShieldAlert, RotateCcw } from
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 
 const services = [
   {
@@ -260,12 +260,12 @@ export default function Services() {
                 Get a free quote today and see how we can help
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a
-                  href="/contact"
+                <Link
+                  to="/contact"
                   className="inline-block bg-primary-foreground text-primary px-8 py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity"
                 >
                   Get Free Quote
-                </a>
+                </Link>
                 <a
                   href="https://wa.me/61450693539"
                   target="_blank"

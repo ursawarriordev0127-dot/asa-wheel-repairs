@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { ChevronDown } from "lucide-react";
+import { Link } from "react-router-dom";
 import {
   Accordion,
   AccordionContent,
@@ -191,12 +192,12 @@ export default function FAQ() {
                 Get in touch with us and we'll be happy to help
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a
-                  href="/contact"
+                <Link
+                  to="/contact"
                   className="inline-block bg-primary-foreground text-primary px-8 py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity"
                 >
                   Contact Us
-                </a>
+                </Link>
                 <a
                   href="https://wa.me/61450693539"
                   target="_blank"
