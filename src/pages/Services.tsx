@@ -201,14 +201,21 @@ export default function Services() {
                           <div className="relative rounded-xl aspect-video overflow-hidden bg-muted">
                             <img
                               src={service.image}
-                              alt={service.title}
+                              alt="Wheel Restoration — Before (Acid Strip)"
                               className="w-full h-full object-cover"
                             />
                           </div>
                           <div className="relative rounded-xl aspect-video overflow-hidden bg-muted">
                             <img
                               src="/Wheel Restoration 2.jpg"
-                              alt="Wheel Restoration — Powder Coated Result"
+                              alt="Wheel Restoration — Sand Blasted"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div className="relative rounded-xl aspect-video overflow-hidden bg-muted">
+                            <img
+                              src="/Wheel Restoration 3.jpg"
+                              alt="Wheel Restoration — Powder Coated Final Result"
                               className="w-full h-full object-cover"
                             />
                           </div>
