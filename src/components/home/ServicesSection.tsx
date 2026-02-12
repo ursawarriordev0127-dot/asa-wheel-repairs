@@ -30,14 +30,6 @@ const services = [
     features: ["Wide colour range", "Durable finish", "Complete transformation"],
   },
   {
-    id: "tyre-service",
-    icon: CircleDot,
-    title: "Tyre Service",
-    description:
-      "Complete tyre services including supply, fitting, and balancing. We work with all major tyre brands.",
-    features: ["All major brands", "Professional fitting", "Wheel balancing"],
-  },
-  {
     id: "buckle-repair",
     icon: Target,
     title: "Buckle Wheel Repair",
