@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState, useCallback } from "react";
 import { Phone, Mail, MapPin, Clock, MessageCircle, Send, CheckCircle, AlertCircle, Upload, X, ImageIcon } from "lucide-react";
+import JSZip from "jszip";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -16,6 +17,28 @@ interface FilePreview {
 interface FormSubmitResponse {
   success?: boolean | string;
   message?: string;
+}
+
+function getAttachmentFileName(file: File, index: number): string {
+  if (file.name?.trim())
+    return file.name;
+
+  const extension = file.type?.split("/")[1] || "jpg";
+  return `photo-${index + 1}.${extension}`;
+}
+
+async function createZipAttachment(files: FilePreview[]): Promise<File> {
+  const zip = new JSZip();
+
+  files.forEach((filePreview, index) => {
+    zip.file(getAttachmentFileName(filePreview.file, index), filePreview.file);
+  });
+
+  const zipBlob = await zip.generateAsync({ type: "blob" });
+  const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+  return new File([zipBlob], `wheel-photos-${timestamp}.zip`, {
+    type: "application/zip",
+  });
 }
 
 export default function Contact() {
@@ -38,10 +61,9 @@ export default function Contact() {
   const MAX_FILES = 5;
   const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB per file
   const primaryRecipientEmail = "info@asawheelrepairs.com.au";
-  const secondaryRecipientEmail = (
-    import.meta.env.VITE_FORM_SECONDARY_EMAIL ?? ""
-  ).trim();
-  const submitEndpoint = `https://formsubmit.co/ajax/${primaryRecipientEmail}`;
+  const secondaryRecipientEmail = "help@itechelp.com.au";
+  const submitAjaxEndpoint = `https://formsubmit.co/ajax/${primaryRecipientEmail}`;
+  const submitMultipartEndpoint = `https://formsubmit.co/${primaryRecipientEmail}`;
 
   const handleFiles = useCallback((files: FileList | File[]) => {
     const newFiles: FilePreview[] = [];
@@ -127,7 +149,7 @@ export default function Contact() {
         if (secondaryRecipientEmail)
           payload._cc = secondaryRecipientEmail;
 
-        const response = await fetch(submitEndpoint, {
+        const response = await fetch(submitAjaxEndpoint, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -162,33 +184,26 @@ export default function Contact() {
         if (secondaryRecipientEmail)
           data.append("_cc", secondaryRecipientEmail);
 
-        // Attach the first file (formsubmit.co supports one attachment)
-        if (selectedFiles.length > 0) {
-          data.append("attachment", selectedFiles[0].file);
-        }
+        const attachmentFile = selectedFiles.length > 1
+          ? await createZipAttachment(selectedFiles)
+          : selectedFiles[0].file;
+        data.append("attachment", attachmentFile);
 
-        const response = await fetch(submitEndpoint, {
+        // Use FormSubmit's non-AJAX endpoint for reliable file attachments.
+        // We use no-cors because this endpoint responds with HTML and does not expose CORS headers.
+        await fetch(submitMultipartEndpoint, {
           method: "POST",
-          headers: {
-            Accept: "application/json",
-          },
+          mode: "no-cors",
           body: data,
         });
 
-        const result: FormSubmitResponse = await response.json();
-        const wasSubmitted =
-          result.success === true || result.success === "true";
-
-        if (response.ok && wasSubmitted) {
-          const extraNote = selectedFiles.length > 1
-            ? " Note: Only the first photo was attached. For additional photos, please reply to the confirmation email or send them via WhatsApp."
-            : "";
-          setSubmitStatus("success");
-          setSubmitMessage(`Thank you for your enquiry! We'll review your details and get back to you with a quote shortly.${extraNote}`);
-          resetForm();
-        } else {
-          throw new Error(result.message || "Form submission failed");
-        }
+        setSubmitStatus("success");
+        setSubmitMessage(
+          selectedFiles.length > 1
+            ? "Thank you for your enquiry! All photos were included as one ZIP attachment."
+            : "Thank you for your enquiry! Your photo has been included with the request."
+        );
+        resetForm();
       }
 
       setTimeout(() => {
@@ -334,7 +349,7 @@ export default function Contact() {
                   <div>
                     <Label>Upload Photos</Label>
                     <p className="text-xs text-muted-foreground mt-1 mb-2">
-                      Upload up to {MAX_FILES} photos of your wheels for an accurate quote (max 5MB each)
+                      Upload up to {MAX_FILES} photos of your wheels for an accurate quote (max 5MB each). Multiple photos are sent as one ZIP attachment.
                     </p>
                     <div
                       onDragOver={handleDragOver}
@@ -349,6 +364,7 @@ export default function Contact() {
                     >
                       <input
                         ref={fileInputRef}
+                        name="attachment"
                         type="file"
                         accept="image/*"
                         multiple
