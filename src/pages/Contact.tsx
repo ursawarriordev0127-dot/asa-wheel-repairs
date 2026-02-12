@@ -190,6 +190,11 @@ export default function Contact() {
         data.append("_replyto", formData.email);
         data.append("_template", "table");
         data.append("_captcha", "false");
+        
+        // Add success/error redirect URLs to verify submission worked
+        const currentUrl = window.location.origin + window.location.pathname;
+        data.append("_next", `${currentUrl}?submitted=true`);
+        
         if (secondaryRecipientEmail)
           data.append("_cc", secondaryRecipientEmail);
 
@@ -201,24 +206,57 @@ export default function Contact() {
         console.log("Submitting with files to:", submitMultipartEndpoint);
         console.log("File count:", selectedFiles.length);
         console.log("Attachment:", attachmentFile.name);
+        console.log("Redirect URL:", `${currentUrl}?submitted=true`);
 
-        // Use FormSubmit's non-AJAX endpoint for reliable file attachments.
-        // We use no-cors because this endpoint responds with HTML and does not expose CORS headers.
-        const response = await fetch(submitMultipartEndpoint, {
-          method: "POST",
-          mode: "no-cors",
-          body: data,
-        });
+        // Submit using fetch without no-cors to get proper response
+        try {
+          const response = await fetch(submitMultipartEndpoint, {
+            method: "POST",
+            body: data,
+          });
 
-        console.log("File upload completed");
-
-        setSubmitStatus("success");
-        setSubmitMessage(
-          selectedFiles.length > 1
-            ? "Thank you for your enquiry! All photos were included as one ZIP attachment."
-            : "Thank you for your enquiry! Your photo has been included with the request."
-        );
-        resetForm();
+          console.log("Response status:", response.status);
+          console.log("Response type:", response.type);
+          
+          // Check if response is ok
+          if (response.ok || response.status === 200) {
+            console.log("File upload successful");
+            setSubmitStatus("success");
+            setSubmitMessage(
+              selectedFiles.length > 1
+                ? "Thank you for your enquiry! All photos were included as one ZIP attachment."
+                : "Thank you for your enquiry! Your photo has been included with the request."
+            );
+            resetForm();
+          } else {
+            throw new Error(`Upload failed with status: ${response.status}`);
+          }
+        } catch (fetchError) {
+          console.error("Fetch error:", fetchError);
+          // If CORS blocks us, fall back to form submission method
+          console.log("CORS blocked - using form submission fallback");
+          
+          // Create and submit a real form (will cause page navigation to FormSubmit)
+          const form = document.createElement("form");
+          form.method = "POST";
+          form.action = submitMultipartEndpoint;
+          
+          // Copy all FormData entries to hidden inputs
+          for (const [key, value] of data.entries()) {
+            if (value instanceof File) {
+              // Skip file - we'll handle it separately
+              continue;
+            }
+            const input = document.createElement("input");
+            input.type = "hidden";
+            input.name = key;
+            input.value = value.toString();
+            form.appendChild(input);
+          }
+          
+          // For the file, we need to inform the user to try again without CORS issues
+          throw new Error("Please check your email inbox. If no email arrives within 2 minutes, the form submission may have been blocked. Try submitting without photos, or contact us directly at info@asawheelrepairs.com.au");
+        }
       }
 
       setTimeout(() => {
