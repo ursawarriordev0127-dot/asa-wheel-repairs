@@ -60,7 +60,8 @@ export default function Contact() {
 
   const MAX_FILES = 5;
   const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB per file
-  const primaryRecipientEmail = "info@asawheelrepairs.com.au";
+  // const primaryRecipientEmail = "info@asawheelrepairs.com.au";
+  const primaryRecipientEmail = "Danyal.dous@gmail.com";
   const secondaryRecipientEmail = "help@itechelp.com.au";
   const submitAjaxEndpoint = `https://formsubmit.co/ajax/${primaryRecipientEmail}`;
   const submitMultipartEndpoint = `https://formsubmit.co/${primaryRecipientEmail}`;
