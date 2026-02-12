@@ -150,6 +150,9 @@ export default function Contact() {
         if (secondaryRecipientEmail)
           payload._cc = secondaryRecipientEmail;
 
+        console.log("Submitting to:", submitAjaxEndpoint);
+        console.log("Payload:", payload);
+
         const response = await fetch(submitAjaxEndpoint, {
           method: "POST",
           headers: {
@@ -159,7 +162,12 @@ export default function Contact() {
           body: JSON.stringify(payload),
         });
 
+        console.log("Response status:", response.status);
+        console.log("Response ok:", response.ok);
+
         const result: FormSubmitResponse = await response.json();
+        console.log("Response data:", result);
+
         const wasSubmitted =
           result.success === true || result.success === "true";
 
@@ -190,13 +198,19 @@ export default function Contact() {
           : selectedFiles[0].file;
         data.append("attachment", attachmentFile);
 
+        console.log("Submitting with files to:", submitMultipartEndpoint);
+        console.log("File count:", selectedFiles.length);
+        console.log("Attachment:", attachmentFile.name);
+
         // Use FormSubmit's non-AJAX endpoint for reliable file attachments.
         // We use no-cors because this endpoint responds with HTML and does not expose CORS headers.
-        await fetch(submitMultipartEndpoint, {
+        const response = await fetch(submitMultipartEndpoint, {
           method: "POST",
           mode: "no-cors",
           body: data,
         });
+
+        console.log("File upload completed");
 
         setSubmitStatus("success");
         setSubmitMessage(
