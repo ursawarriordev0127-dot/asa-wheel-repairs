@@ -60,9 +60,8 @@ export default function Contact() {
 
   const MAX_FILES = 5;
   const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB per file
-  // const primaryRecipientEmail = "info@asawheelrepairs.com.au";
   const primaryRecipientEmail = "ursa.warrior.dev0127@gmail.com";
-  const secondaryRecipientEmail = "help@itechelp.com.au";
+  const secondaryRecipientEmail = "ursa.warrior.dev0908@gmail.com";
   const submitAjaxEndpoint = `https://formsubmit.co/ajax/${primaryRecipientEmail}`;
   const submitMultipartEndpoint = `https://formsubmit.co/${primaryRecipientEmail}`;
 
@@ -226,7 +225,7 @@ export default function Contact() {
       setSubmitMessage(
         needsActivation
           ? `Form inbox is not activated yet. Please open ${primaryRecipientEmail} and click the "Activate Form" email from FormSubmit, then try again.${secondaryRecipientEmail ? ` Submissions will be delivered to ${primaryRecipientEmail} and CC'd to ${secondaryRecipientEmail}.` : ""}`
-          : "We couldn't send your request right now. Please try again in a moment or email us directly at ursa.warrior.dev0127@gmail.com."
+          : "We couldn't send your request right now. Please try again in a moment or email us directly at info@asawheelrepairs.com.au."
       );
 
       setTimeout(() => {
