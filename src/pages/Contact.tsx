@@ -226,7 +226,7 @@ export default function Contact() {
       setSubmitMessage(
         needsActivation
           ? `Form inbox is not activated yet. Please open ${primaryRecipientEmail} and click the "Activate Form" email from FormSubmit, then try again.${secondaryRecipientEmail ? ` Submissions will be delivered to ${primaryRecipientEmail} and CC'd to ${secondaryRecipientEmail}.` : ""}`
-          : "We couldn't send your request right now. Please try again in a moment or email us directly at info@asawheelrepairs.com.au."
+          : "We couldn't send your request right now. Please try again in a moment or email us directly at ursa.warrior.dev0127@gmail.com."
       );
 
       setTimeout(() => {
